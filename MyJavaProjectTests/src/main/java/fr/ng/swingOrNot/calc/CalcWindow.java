@@ -1,5 +1,9 @@
 package fr.ng.swingOrNot.calc;
 
+import fr.ng.swingOrNot.calc.actions.AboutAction;
+import fr.ng.swingOrNot.calc.actions.CalculAction;
+import fr.ng.swingOrNot.calc.actions.LeavingAction;
+
 import java.awt.Color;
 import java.awt.FlowLayout;
 
@@ -12,10 +16,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import swingOrNot.calc.actions.AboutAction;
-import swingOrNot.calc.actions.CalculAction;
-import swingOrNot.calc.actions.LeavingAction;
 
 public class CalcWindow extends JFrame {
 

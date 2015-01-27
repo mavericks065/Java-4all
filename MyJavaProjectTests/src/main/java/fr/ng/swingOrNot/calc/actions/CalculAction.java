@@ -1,11 +1,12 @@
 package fr.ng.swingOrNot.calc.actions;
 
+import fr.ng.swingOrNot.calc.CalcWindow;
+
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
-import swingOrNot.calc.CalcWindow;
 
 public class CalculAction extends AbstractAction {
 

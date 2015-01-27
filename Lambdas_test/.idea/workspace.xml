@@ -29,8 +29,8 @@
       <file leaf-file-name="InternalAndExternalIterations.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/nicolasguignard/lambdas_tests/java/InternalAndExternalIterations.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9821183" vertical-offset="141" max-vertical-offset="975">
-              <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.30123797" vertical-offset="141" max-vertical-offset="975">
+              <caret line="24" column="9" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -579,12 +579,12 @@
       <created>1422347486004</created>
       <option name="number" value="Default" />
       <updated>1422347486004</updated>
-      <workItem from="1422347490324" duration="8500000" />
+      <workItem from="1422347490324" duration="9732000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8500000" />
+    <option name="totallyTimeSpent" value="9732000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="873" extended-state="6" />
@@ -670,8 +670,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/nicolasguignard/lambdas_tests/java/InternalAndExternalIterations.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9821183" vertical-offset="141" max-vertical-offset="975">
-          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.30123797" vertical-offset="141" max-vertical-offset="975">
+          <caret line="24" column="9" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
