@@ -3,7 +3,9 @@ package nicolasguignard.lambdas_tests.java;
 import nicolasguignard.lambdas_tests.java.models.Shape;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public class InternalAndExternalIterations {
 
@@ -13,7 +15,6 @@ public class InternalAndExternalIterations {
 
         simpleIterationsExamples();
 
-
         System.out.println("###########################");
         System.out.println("Second test");
         System.out.println("###########################");
@@ -22,10 +23,6 @@ public class InternalAndExternalIterations {
         } catch (NullPointerException e) {
             System.out.println("If my colection is null forEach throws a null pointer exception");
         }
-
-        shapes = new ArrayList<>(10000000);
-
-
 
     }
 
