@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AndroidAppSdz</string>
+    <string name="title_activity_imc">IMCActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_imcbetter_layout">IMCBetterLayoutActivity</string>
+    <string name="title_activity_inscription">InscriptionActivity</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <!-- strings for the Register activity -->
+    
+    <string name="email">Votre email</string>
+    <string name="firstName">Prenom</string>
+    <string name="lastName">Nom</string>
+    <string name="password">Mot de passe</string>
+    <string name="confirmPassword">Confirmez MDP</string>
+
+</resources>

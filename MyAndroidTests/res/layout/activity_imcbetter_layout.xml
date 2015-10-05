@@ -1,0 +1,116 @@
+<!-- <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" -->
+<!-- xmlns:tools="http://schemas.android.com/tools" -->
+<!-- android:layout_width="match_parent" -->
+<!-- android:layout_height="match_parent" -->
+<!-- android:paddingBottom="@dimen/activity_vertical_margin" -->
+<!-- android:paddingLeft="@dimen/activity_horizontal_margin" -->
+<!-- android:paddingRight="@dimen/activity_horizontal_margin" -->
+<!-- android:paddingTop="@dimen/activity_vertical_margin" -->
+<!-- tools:context=".IMCBetterLayoutActivity" > -->
+
+
+<!-- <TextView -->
+<!-- android:layout_width="wrap_content" -->
+<!-- android:layout_height="wrap_content" -->
+<!-- android:text="@string/hello_world" /> -->
+
+
+<!-- </RelativeLayout> -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginLeft="3dip"
+    android:layout_marginRight="3dip"
+    android:layout_marginTop="10dip" >
+
+    <TextView
+        android:id="@+id/textPoids"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Poids : "
+        android:textColor="#FF0000"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/poids"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/textPoids"
+        android:hint="Poids"
+        android:inputType="numberDecimal" />
+
+    <TextView
+        android:id="@+id/textTaille"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/poids"
+        android:gravity="left"
+        android:text="Taille : "
+        android:textColor="#FF0000"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/taille"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/poids"
+        android:layout_toRightOf="@id/textTaille"
+        android:hint="Taille"
+        android:inputType="numberDecimal" />
+
+    <RadioGroup
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/taille"
+        android:checkedButton="@+id/radio2"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/radio1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mètre" />
+
+        <RadioButton
+            android:id="@+id/radio2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Centimètre" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/calcul"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/group"
+        android:layout_marginLeft="25dip"
+        android:text="Calculer l&apos;IMC" />
+
+    <Button
+        android:id="@+id/raz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/taille"
+        android:layout_below="@id/group"
+        android:layout_marginRight="25dip"
+        android:text="RAZ" />
+
+    <TextView
+        android:id="@+id/resultPre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/calcul"
+        android:text="Résultat:" />
+
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/resultPre"
+        android:text="Vous devez cliquer sur le bouton « Calculer l&apos;IMC » pour obtenir un résultat." />
+
+</RelativeLayout>

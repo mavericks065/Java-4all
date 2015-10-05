@@ -1,0 +1,68 @@
+<!-- <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" -->
+<!--     xmlns:tools="http://schemas.android.com/tools" -->
+<!--     android:layout_width="fill_parent" -->
+<!--     android:layout_height="fill_parent" -->
+<!--     tools:context=".InscriptionActivity" > -->
+    
+    
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+        
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="Remplissez les champs ci-dessous" />
+    
+	<EditText
+        android:id="@+id/mail"
+        android:layout_width="@dimen/large_padding"
+        android:layout_height="wrap_content"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:layout_gravity="center" />
+    
+	<EditText
+        android:id="@+id/firstName"
+        android:layout_width="@dimen/large_padding"
+        android:layout_height="wrap_content"
+        android:hint="Prenom"
+        android:inputType="text"
+        android:layout_gravity="center" />
+
+	<EditText
+        android:id="@+id/lastName"
+        android:layout_width="@dimen/large_padding"
+        android:layout_height="wrap_content"
+        android:hint="Nom"
+        android:inputType="text"
+        android:layout_gravity="center" />
+       
+	<EditText
+        android:id="@+id/password"
+        android:layout_width="@dimen/large_padding"
+        android:layout_height="wrap_content"
+        android:hint="Mot de passe"
+        android:inputType="textPassword"
+        android:layout_gravity="center" />
+       	
+	<EditText
+        android:id="@+id/confirmPassword"
+        android:layout_width="@dimen/large_padding"
+        android:layout_height="wrap_content"
+        android:hint="Confirmez MDP"
+        android:inputType="textPassword"
+        android:layout_gravity="center" />
+	
+	<Button 
+	    android:id="@+id/createAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Créer le compte"
+	    />
+	</LinearLayout>
