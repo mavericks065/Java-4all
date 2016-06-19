@@ -13,7 +13,7 @@ import com.ng.business.structures.Window;
 public class CountVisitorTest {
 	
 	@Test
-	public void test_should_count_chair_visited () {
+	public void should_count_chair_visited () {
 		// GIVEN
 		final Chair chair = new Chair();
 		final CountVisitor countVisitor = new CountVisitor();
@@ -26,7 +26,7 @@ public class CountVisitorTest {
 	}
 
 	@Test
-	public void  test_should_count_table_visited () {
+	public void  should_count_table_visited () {
 		// GIVEN
 		final Table table = new Table();
 		final CountVisitor countVisitor = new CountVisitor();
@@ -39,7 +39,7 @@ public class CountVisitorTest {
 	}
 	
 	@Test
-	public void test_should_count_door_and_window_visited () {
+	public void should_count_door_and_window_visited () {
 		// GIVEN
 		final Door door = new Door();
 		final Window window = new Window();
@@ -54,7 +54,7 @@ public class CountVisitorTest {
 	}
 	
 	@Test
-	public void test_should_count_door_and_window_visited2 () {
+	public void should_count_door_and_window_visited2 () {
 		// GIVEN
 		final Item[] roomItems = {new Chair()};
 		final Room room = new Room(roomItems);
@@ -68,7 +68,7 @@ public class CountVisitorTest {
 	}
 	
 	@Test
-	public void test_should_print_reset_counter () {
+	public void should_print_reset_counter () {
 		// GIVEN
 		final Table table = new Table();
 		final CountVisitor countVisitor = new CountVisitor();

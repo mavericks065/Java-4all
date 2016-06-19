@@ -4,6 +4,6 @@ import com.ng.businessvisitor.ItemVisitor;
 
 public interface Item {
 
-	public void accept(ItemVisitor visitor);
+	void accept(ItemVisitor visitor);
 
 }

@@ -37,9 +37,4 @@ public class Room extends Structure {
 	public Item[] getItems() {
 		return items;
 	}
-
-	public void setItems(Item[] items) {
-		this.items = items;
-	}
-	
 }

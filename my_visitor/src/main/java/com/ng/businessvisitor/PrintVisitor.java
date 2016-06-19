@@ -3,7 +3,7 @@ package com.ng.businessvisitor;
 import com.ng.business.Item;
 
 /**
- * The aim of this visitor is to be print "visited"
+ * The aim of this visitor is to print "visited"
  * everytime an item is visited. 
  * 
  * @author nicolas guignard

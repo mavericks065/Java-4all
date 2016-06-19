@@ -5,9 +5,6 @@ import com.ng.businessvisitor.ItemVisitor;
 
 public abstract class Structure implements Item {
 
-	public Structure() {
-	}
-
 	public void accept(ItemVisitor visitor) {
 		this.accept(visitor);
 	}

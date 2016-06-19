@@ -15,7 +15,7 @@ public class CountVisitor implements ItemVisitor {
 	public CountVisitor (){
 		this.counter = 0;
 	}
-	
+
 	@Override
 	public void countItems(Item item) {
 		counter++;

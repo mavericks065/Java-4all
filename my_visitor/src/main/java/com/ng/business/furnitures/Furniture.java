@@ -5,10 +5,6 @@ import com.ng.businessvisitor.ItemVisitor;
 
 public abstract class Furniture implements Item {
 
-
-	public Furniture() {
-	}
-
 	public void accept(ItemVisitor visitor) {
 		this.accept(visitor);
 	}
