@@ -8,7 +8,7 @@ import com.ng.genericobjectpool.exceptions.OutOfPoolSizeException;
 public class GenericObjectPoolTest {
 
 	@Test
-	public void test_should_initialize_pool() {
+	public void should_initialize_pool() {
 		// GIVEN
 		final int initial = 500;
 		final int ceiling = 1000;
@@ -34,7 +34,7 @@ public class GenericObjectPoolTest {
 	}
 
 	@Test
-	public void test_should_acquired_object_and_change_his_state() {
+	public void should_acquired_object_and_change_his_state() {
 		// GIVEN
 		final int initial = 500;
 		final int ceiling = 1000;
@@ -58,14 +58,14 @@ public class GenericObjectPoolTest {
 		Assert.assertEquals(499, genericPool.getNbrOfFreeObjects());
 		for (GenericObjectPool<Object>.Poolable poolable : genericPool.getPool()) {
 			if (acquiredObject.equals(poolable.getObject())) {
-				Assert.assertEquals(GenericObjectPool.State.INUSE,
+				Assert.assertEquals(GenericObjectState.INUSE,
 						poolable.getState());
 			}
 		}
 	}
 
 	@Test
-	public void test_should_acquired_object_and_make_pool_bigger_under_ceiling_size() {
+	public void should_acquired_object_and_make_pool_bigger_under_ceiling_size() {
 		// GIVEN
 		final int initial = 500;
 		final int ceiling = 1000;
@@ -92,7 +92,7 @@ public class GenericObjectPoolTest {
 	}
 
 	@Test
-	public void test_should_acquired_object_and_make_pool_bigger_under_ceiling_size0() {
+	public void should_acquired_object_and_make_pool_bigger_under_ceiling_size0() {
 		// GIVEN
 		final int initial = 5;
 		final int ceiling = 10;
@@ -115,14 +115,14 @@ public class GenericObjectPoolTest {
 		// THEN
 		for (GenericObjectPool<Object>.Poolable poolable : genericPool.getPool()) {
 			if (acquiredObject.equals(poolable.getObject())) {
-				Assert.assertEquals(GenericObjectPool.State.INUSE,
+				Assert.assertEquals(GenericObjectState.INUSE,
 						poolable.getState());
 			}
 		}
 	}
 
 	@Test
-	public void test_should_acquired_object_and_make_pool_bigger_at_ceiling_size() {
+	public void should_acquired_object_and_make_pool_bigger_at_ceiling_size() {
 		// GIVEN
 		final int initial = 500;
 		final int ceiling = 700;
@@ -145,7 +145,7 @@ public class GenericObjectPoolTest {
 
 		for (GenericObjectPool<Object>.Poolable poolable : genericPool.getPool()) {
 			if (object.equals(poolable.getObject())) {
-				Assert.assertEquals(GenericObjectPool.State.INUSE,
+				Assert.assertEquals(GenericObjectState.INUSE,
 						poolable.getState());
 			}
 		}
@@ -153,7 +153,7 @@ public class GenericObjectPoolTest {
 	}
 
 	@Test
-	public void test_should_free_object_and_re_change_his_state()
+	public void should_free_object_and_re_change_his_state()
 			throws OutOfPoolSizeException {
 		// GIVEN
 		final int initial = 500;
@@ -177,7 +177,7 @@ public class GenericObjectPoolTest {
 		for (GenericObjectPool<Object>.Poolable poolable : genericPool.getPool()) {
 			if (object.equals(poolable.getObject())) {
 				genericPool.freeObject(poolable);
-				Assert.assertEquals(GenericObjectPool.State.FREE,
+				Assert.assertEquals(GenericObjectState.FREE,
 						poolable.getState());
 			}
 		}

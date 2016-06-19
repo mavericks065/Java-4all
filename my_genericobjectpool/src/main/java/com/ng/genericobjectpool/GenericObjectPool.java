@@ -12,22 +12,15 @@ import com.ng.genericobjectpool.exceptions.OutOfPoolSizeException;
  */
 public abstract class GenericObjectPool<T> {
 
-	public static final String GLOBAL_LOGGER = "GenericObjectPool Logger";
-
 	/** Our pool of objects */
 	private List<Poolable> pool;
 
-	enum State {
-		FREE, INUSE
-	}
-	
-	
 	class Poolable {
 
 		private T object;
-		private State state;
+		private GenericObjectState state;
 		
-		Poolable(T object, State state) {
+		Poolable(T object, GenericObjectState state) {
 			this.object = object;
 			this.state = state;
 		}
@@ -35,8 +28,8 @@ public abstract class GenericObjectPool<T> {
 		T getObject() {
 			return object;
 		}
-		
-		State getState() {
+
+		GenericObjectState getState() {
 			return state;
 		}
 		
@@ -79,12 +72,6 @@ public abstract class GenericObjectPool<T> {
 	 *            is reached
 	 * @param ceiling
 	 *            maximum number of objects residing in the pool
-	 * @param validationInterval
-	 *            time in seconds for periodical checking of initial / ceiling
-	 *            conditions in a separate thread. When the number of objects is
-	 *            less than initial, missing instances will be created. When the
-	 *            number of objects is greater than ceiling, too many instances
-	 *            will be removed.
 	 */
 	public GenericObjectPool(final int initial, final int ceiling,
 			final int threshold, final int growth) {
@@ -99,7 +86,7 @@ public abstract class GenericObjectPool<T> {
 		pool = new ArrayList<>();
 
 		for (int i = 0; i < initial; i++) {
-			pool.add(new Poolable(createObject(), State.FREE));
+			pool.add(new Poolable(createObject(), GenericObjectState.FREE));
 			nbrOfFreeObjects++;
 		}
 	}
@@ -121,13 +108,13 @@ public abstract class GenericObjectPool<T> {
 	private void growth() {
 		if (growth + pool.size() <= ceiling) {
 			for (int i = 0; i < growth; i++) {
-				pool.add(new Poolable(createObject(), State.FREE));
+				pool.add(new Poolable(createObject(), GenericObjectState.FREE));
 				nbrOfFreeObjects++;
 			}
 		} else {
 			final int size = pool.size();
 			for (int i = 0; i < ceiling - size; i++) {
-				pool.add(new Poolable(createObject(), State.FREE));
+				pool.add(new Poolable(createObject(), GenericObjectState.FREE));
 				nbrOfFreeObjects++;
 			}
 		}
@@ -141,10 +128,10 @@ public abstract class GenericObjectPool<T> {
 	 */
 	private T getFirstFreeObject() {
 		for (Poolable poolable : pool) {
-			if (State.FREE.equals(poolable.state)) {
+			if (GenericObjectState.FREE.equals(poolable.state)) {
 				nbrOfFreeObjects--;
 				// set the state from FREE to INUSE
-				poolable.state = State.INUSE;
+				poolable.state = GenericObjectState.INUSE;
 				return poolable.object;
 			}
 		}
@@ -152,9 +139,8 @@ public abstract class GenericObjectPool<T> {
 	}
 
 	/**
-	 * Returns object back to the pool.
-	 * 
-	 * @param object
+	 *
+	 * @param poolable
 	 *            object to be returned
 	 * @throws OutOfPoolSizeException
 	 */
@@ -165,7 +151,7 @@ public abstract class GenericObjectPool<T> {
 		if (pool.size() >= ceiling) {
 			throw new OutOfPoolSizeException();
 		} else {
-			poolable.state = State.FREE;
+			poolable.state = GenericObjectState.FREE;
 			nbrOfFreeObjects++;
 		}
 	}
