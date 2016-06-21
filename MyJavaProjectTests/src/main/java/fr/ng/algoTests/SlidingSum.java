@@ -59,9 +59,9 @@ public class SlidingSum {
         for (int i = 0; i < listToTransform.size() + 1 - slidingInt; i++) {
             k += listToTransform.get(i);
 
-            if (i > slidingInt - 1) {
+            if (i >= slidingInt - 1) {
                 slidingAverageList.add(Integer.valueOf(k));
-                k += listToTransform.get(i + 1 - slidingInt);
+                k -= listToTransform.get(i + 1 - slidingInt);
             }
 
         }
