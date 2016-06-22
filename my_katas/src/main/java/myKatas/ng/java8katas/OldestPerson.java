@@ -6,10 +6,9 @@ import java.util.List;
 public class OldestPerson {
 
     /**
-     * TODO
+     * TODO compare people and return older one
      */
     public static Person getOldestPerson(List<Person> people) {
-
         return null;
     }
 

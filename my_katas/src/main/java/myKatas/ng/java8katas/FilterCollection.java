@@ -1,17 +1,14 @@
 package myKatas.ng.java8katas;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
+import java.util.stream.Collectors;
 
 public class FilterCollection {
 
     /**
-     * TODO
+     * TODO Filter elements with length smaller than 4 characters
      */
     public static List<String> transform(List<String> collection) {
-
         return null;
     }
 

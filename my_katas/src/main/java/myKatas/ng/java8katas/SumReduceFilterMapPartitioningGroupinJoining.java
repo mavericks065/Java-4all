@@ -1,11 +1,9 @@
 package myKatas.ng.java8katas;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.partitioningBy;
 
@@ -15,25 +13,36 @@ import static java.util.stream.Collectors.partitioningBy;
 public class SumReduceFilterMapPartitioningGroupinJoining {
 
     /**
-     * TODO
+     * TODO add numbers
      */
     public static int calculate(List<Integer> people) {
         return 0;
     }
 
-
+    /**
+     * TODO return kids name
+     */
     public static Set<String> getKidNames(List<Person> people) {
         return null; // Collect values to a Set
     }
 
+    /**
+     * TODO separate kids from adult with boolean keys
+     */
     public static Map<Boolean, List<Person>> partitionAdults(List<Person> people) {
         return null;
     }
 
+    /**
+     * TODO
+     */
     public static Map<String, List<Person>> groupByNationality(List<Person> people) {
         return null;
     }
 
+    /**
+     * TODO return peple name separated by comma
+     */
     public static String namesToString(List<Person> people) {
         return null;
     }

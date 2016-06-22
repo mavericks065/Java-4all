@@ -2,6 +2,7 @@ package myKatas.ng.java8katas;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by mba on 24/04/2016.
@@ -10,10 +11,9 @@ public class FlatCollection {
 
 
     /**
-     * TODO
+     * TODO transform list of list
      */
     public static List<String> transform(List<List<String>> collection) {
-
         return null;
     }
 

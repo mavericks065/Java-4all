@@ -13,7 +13,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 public class SumReduceFilterMapPartitioningGroupinJoiningTest {
 
     @Test
-    public void should_convert_collection_elements_toUpperCase() {
+    public void should_add_collection_elements_() {
         // GIVEN
         List<Integer> numbers = asList(1, 2, 3, 4, 5);
 
@@ -59,7 +59,7 @@ public class SumReduceFilterMapPartitioningGroupinJoiningTest {
     }
 
     @Test
-    public void group_should_separate_kids_from_adults() {
+    public void should_group_by_nationality() {
 
         // GIVEN
         Person sara = new Person("Sara", 4, "Norwegian");
