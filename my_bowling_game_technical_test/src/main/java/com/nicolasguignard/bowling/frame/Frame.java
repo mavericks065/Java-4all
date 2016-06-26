@@ -63,6 +63,10 @@ public abstract class Frame {
         return rolls;
     }
 
+    /**
+     * add a player's result
+     * @param roll
+     */
     public abstract void roll(int roll);
 
     public Integer getFirstRoll() {

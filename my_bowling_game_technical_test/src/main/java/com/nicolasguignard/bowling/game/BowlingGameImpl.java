@@ -50,7 +50,7 @@ public class BowlingGameImpl implements BowlingGame {
 
         if (wasSpareFrame()) {
 
-            convertPreviousFrameToSpareFrame(numberOfPins, frame);
+            convertPreviousFrameToSpareFrame(numberOfPins);
 
         } else if (wasStrikeFrame()) {
 
@@ -130,10 +130,17 @@ public class BowlingGameImpl implements BowlingGame {
         }
     }
 
+    /**
+     * Replace the previous frame by a strike frame
+     *
+     * @param numberOfPins
+     * @param frame
+     */
     private void convertPreviousFrameToStrikeFrame(int numberOfPins, Frame frame) {
         final StrikeFrame strikeFrame;
 
-        // if the new frame still did not reference that its rolls must be added to the strike frame
+        // if the new frame still did not reference that its rolls must be added
+        // to the strike frame we poll the last frame and make it a StrikeFrame
         if (frame.getPredecessor() == null) {
 
             final SimpleFrame predecessor = (SimpleFrame) frames.pollLast();
@@ -151,7 +158,12 @@ public class BowlingGameImpl implements BowlingGame {
         }
     }
 
-    private void convertPreviousFrameToSpareFrame(int numberOfPins, Frame frame) {
+    /**
+     * Replace the previous frame by a spare frame
+     *
+     * @param numberOfPins
+     */
+    private void convertPreviousFrameToSpareFrame(int numberOfPins) {
         final SimpleFrame predecessor = (SimpleFrame) frames.pollLast();
 
         final SpareFrame spareFrame = new SpareFrame(predecessor.getFirstRoll(), predecessor.getSecondRoll());

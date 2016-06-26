@@ -26,7 +26,9 @@ The interface should look like this (in Java);
 
 bowlingGame.roll(noOfPins);
 bowlingGame.score();
+
 OPTIONAL
+-------
 
 If time permits implement the rules for the last frame (i.e, 10th frame)
 
