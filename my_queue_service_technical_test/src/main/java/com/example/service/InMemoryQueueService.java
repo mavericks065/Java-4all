@@ -34,25 +34,33 @@ public class InMemoryQueueService implements QueueService {
         }
 
         // pull just NEW messages
-        final QueueMessage result;
-        if (queue.getFirst().getQueueMessageStatus() != QueueMessageStatus.INVISIBLE) {
-            result = queue.getFirst();
-        } else {
-            result = queue.stream().filter(q -> q.getQueueMessageStatus() != QueueMessageStatus.INVISIBLE).findFirst().orElse(null);
+        QueueMessage result = null;
+
+        for (QueueMessage q : queue) {
+            if (q.getQueueMessageStatus() != QueueMessageStatus.INVISIBLE) {
+
+                // we set the status to INVISIBLE to not pull again a message already pulled and not deleted
+                q.setQueueMessageStatus(QueueMessageStatus.INVISIBLE);
+                result = q;
+                break;
+            }
         }
 
-        // we set the status to INVISIBLE to not pull again a message already pulled and not deleted
-        if (result != null) result.setQueueMessageStatus(QueueMessageStatus.INVISIBLE);
+        if (result != null) {
+            // after the visibility timeout, if an INVISIBLE message has not been removed it is set back to NEW
+            QueueMessage temp = result;
 
-        // after the visibility timeout, if an INVISIBLE message has not been removed it is set back to NEW
-        final Timer timer = new Timer();
-        timer.schedule (new TimerTask() {
-            public void run() {
-                if (queue.contains(result)) {
-                    result.setQueueMessageStatus(QueueMessageStatus.NEW);
+            final Timer timer = new Timer();
+            timer.schedule (new TimerTask() {
+                public void run() {
+                    if (queue.contains(temp)) {
+                        queue.removeFirstOccurrence(temp);
+                        temp.setQueueMessageStatus(QueueMessageStatus.NEW);
+                        queue.push(temp);
+                    }
                 }
-            }
-        }, result.getQueue().getVisibilityTimeout());
+            }, result.getQueue().getVisibilityTimeout());
+        }
 
         return result;
     }

@@ -9,19 +9,20 @@ import java.util.LinkedList;
  */
 public class BowlingGameImpl implements BowlingGame {
 
-    private final int NUMBER_OF_FRAMES;
+    private final int numberOfFrames;
+    private final int maximumScore;
 
     private final LinkedList<Frame> frames;
 
-    private static final int MAXIMUM_SCORE = 300;
-
     public BowlingGameImpl() {
-        NUMBER_OF_FRAMES = 10;
+        numberOfFrames = 10;
+        maximumScore = 300;
         frames = new LinkedList<>();
     }
 
     public BowlingGameImpl(int maxNumberOfFrames) {
-        NUMBER_OF_FRAMES = maxNumberOfFrames;
+        numberOfFrames = maxNumberOfFrames;
+        maximumScore = (maxNumberOfFrames * 20) * 3 /2;
         frames = new LinkedList<>();
     }
 
@@ -67,10 +68,10 @@ public class BowlingGameImpl implements BowlingGame {
     public int score() {
 
         // if the user scores only strikes he gets the maximum score
-        if (frames.size() == NUMBER_OF_FRAMES
+        if (frames.size() == numberOfFrames
                 && frames.stream().map(Frame::getFirstRoll).map(Integer::intValue).allMatch(i -> i == Frame.NUMBER_OF_PINS)) {
 
-            return MAXIMUM_SCORE;
+            return maximumScore;
 
         } else {
             return frames.stream()
@@ -84,7 +85,7 @@ public class BowlingGameImpl implements BowlingGame {
      * @return
      */
     private boolean isLastFrame() {
-        return frames.size() == NUMBER_OF_FRAMES;
+        return frames.size() == numberOfFrames;
     }
 
     /**
