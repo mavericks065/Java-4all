@@ -1,0 +1,17 @@
+<resources>
+
+    <!-- Strings related to create ad activity -->
+    <string name="create_ad_hint_title">Titre</string>
+    <string name="create_ad_text_constraint">Attention : le titre de l\'annonce ne pourra être changer par la suite.</string>
+    <string name="create_ad_text_place_instructions">La ville et le code postal où vous souhaitez exercer votre service doivent être tous les deux remplis. Si vous sélectionnez un périmétre nous en déduirons que vous vous déplacez aussi.</string>
+    <string name="create_ad_text_skype_instructions">Télétravail : cochez la case dans le cas où vous souhaitez exercer aussi votre activité à distance.</string>
+    <string name="create_ad_hint_description">Description de votre annonce</string>
+    <string name="create_ad_hint_address">Adresse - Non requise</string>
+    <string name="create_ad_hint_address_city">Ville</string>
+    <string name="create_ad_hint_address_zip_code">Code postal</string>
+    <string name="create_ad_hint_price">Tarif</string>
+    <string name="create_ad_action_validate">Créer l\'annonce</string>
+    <string name="create_my_ad_perimeter">Périmétre d\'action</string>
+    <string name="create_ad_checkbox_remote">Télétravail</string>
+
+</resources>

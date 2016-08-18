@@ -1,0 +1,193 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/create_ad_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/create_ad_hint_title"
+            android:gravity="center_horizontal"
+            android:paddingBottom="10dp"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
+            android:paddingTop="10dp" />
+
+        <TextView
+            android:id="@+id/create_ad_constraint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/create_ad_title"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/create_ad_text_constraint"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:gravity="center_horizontal"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp" />
+
+        <EditText
+            android:id="@+id/create_ad_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/create_ad_constraint"
+            android:layout_gravity="center_horizontal"
+            android:hint="@string/create_ad_hint_description"
+            android:gravity="center_horizontal"
+            android:paddingBottom="10dp"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
+            android:paddingTop="10dp" />
+
+        <TextView
+            android:id="@+id/create_ad_place_instructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/create_ad_description"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/create_ad_text_place_instructions"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:paddingBottom="10dp"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp" />
+
+        <EditText
+            android:id="@+id/create_ad_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/create_ad_place_instructions"
+            android:layout_gravity="center_horizontal"
+            android:hint="@string/create_ad_hint_address"
+            android:gravity="center_horizontal"
+            android:paddingBottom="10dp"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
+            android:paddingTop="10dp" />
+
+        <LinearLayout
+            android:id="@+id/create_ad_address_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/create_ad_address"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <EditText
+                android:id="@+id/create_ad_address_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:hint="@string/create_ad_hint_address_city"
+                android:paddingRight="10dp"
+                android:paddingLeft="30dp"
+                 />
+
+            <EditText
+                android:id="@+id/create_ad_address_zip_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:hint="@string/create_ad_hint_address_zip_code"
+                android:paddingRight="30dp"
+                android:paddingLeft="10dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/create_ad_address_linear_layout_perimeter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/create_ad_address_linear_layout"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:id="@+id/create_ad_textview_perimeter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/create_my_ad_perimeter"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_weight="2"
+                android:paddingRight="10dp"
+                android:paddingLeft="30dp"/>
+
+            <Spinner
+                android:id="@+id/create_ad__spinner_address_perimeter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingRight="30dp"
+                android:paddingLeft="10dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/create_ad_address_skype_instructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/create_ad_address_linear_layout_perimeter"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/create_ad_text_skype_instructions"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:paddingBottom="10dp"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp" />
+
+        <CheckBox
+            android:id="@+id/create_ad_remote_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/create_ad_checkbox_remote"
+            android:layout_below="@id/create_ad_address_skype_instructions"
+            />
+
+        <LinearLayout
+            android:id="@+id/create_ad_spinners"
+            android:layout_below="@id/create_ad_remote_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
+            android:paddingTop="10dp">
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/create_ad_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/create_ad_spinners"
+            android:layout_gravity="center_horizontal"
+            android:hint="@string/create_ad_hint_price"
+            android:gravity="center_horizontal"
+            android:paddingBottom="10dp"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
+            android:paddingTop="10dp" />
+
+        <Button
+            android:id="@+id/create_ad_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/create_ad_price"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:paddingBottom="10dp"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
+            android:paddingTop="10dp"
+            android:text="@string/create_ad_action_validate" />
+
+    </RelativeLayout>
+
+</ScrollView>

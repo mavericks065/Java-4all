@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+     
+    <string name="app_name">HelpAround</string>
+    <string name="action_settings">Réglages</string>
+
+    <!-- strings for the Register activity -->
+    <string name="register_message">Remplissez les champs ci-dessous</string>
+    <string name="register_button">Créer le compte</string>
+    <string name="email">Votre email</string>
+    <string name="first_name">Prénom</string>
+    <string name="last_name">Nom</string>
+    <string name="password">Mot de passe</string>
+    <string name="confirm_password">Confirmez MDP</string>
+    
+    <!--  strings for the splashing screen activity -->
+    <string name="loadingText">Chargement des données&#8230;</string>
+    
+    <!-- Preferences file -->
+    <string name="prefs">MobileServicePrefsFile</string>
+    
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <!-- my account activity strings -->
+    <string name="my_account_old_pwd">Ancien MDP</string>
+    <string name="my_account_new_pwd">Nouveau MDP</string>
+    <string name="my_account_pwd_confirmation">Confirmation MDP</string>
+    <string name="my_account_sexe">Sexe</string>
+    <string name="my_account_address">Adresse</string>
+    <string name="my_account_button">Mettre à jour mes informations</string>
+    
+    <string name="search_bar_title">Recherche</string>
+    <string name="refresh">Rafraichir</string>
+
+    <!-- menu fixed items -->
+    <string name="menu_home">Accueil</string>
+    <string name="menu_disconnection">Deconnexion</string>
+    <string name="menu_profile">Mon profil</string>
+    <string name="menu_my_account">Mon compte</string>
+    <string name="menu_my_researches">Mes recherches</string>
+    <string name="menu_my_ads">Mes services</string>
+    <string name="menu_create_ad">Créer une annonce</string>
+    <string name="menu_categories">Catégories</string>
+
+</resources>
+

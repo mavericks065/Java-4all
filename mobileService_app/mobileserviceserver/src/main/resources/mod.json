@@ -1,0 +1,8 @@
+{
+
+  // Java verticle
+  "main":"com.sss.VertxServer",
+
+  "auto-redeploy": true
+    
+}

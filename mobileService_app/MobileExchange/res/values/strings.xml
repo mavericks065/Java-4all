@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">HelpAround</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- strings for the Register activity -->
+
+    <string name="register_message">Fill up the following fields</string>
+    <string name="register_button">Create account</string>
+    <string name="email">Votre email</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Password (repeat)</string>
+    
+    <!--  strings for the splashing screen activity -->
+    <string name="loadingText">Loading of the data&#8230;</string>
+    
+    <!-- Preferences file -->
+    <string name="prefs">MobileServicePrefsFile</string>
+    
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <!-- my account activity strings -->
+    <string name="my_account_old_pwd">Old pwd</string>
+    <string name="my_account_new_pwd">New pwd</string>
+    <string name="my_account_pwd_confirmation">New pwd (repeat)</string>
+    <string name="my_account_sexe">Sex</string>
+    <string name="my_account_address">Address</string>
+    <string name="my_account_button">Update my informations</string>
+    
+    <string name="search_bar_title">Search</string>
+    <string name="refresh">Refresh</string>
+
+    <!-- menu fixed items -->
+    <string name="menu_home">Home</string>
+    <string name="menu_disconnection">Disconnection</string>
+    <string name="menu_profile">My profile</string>
+    <string name="menu_my_account">My account</string>
+    <string name="menu_my_researches">My researches</string>
+    <string name="menu_my_ads">My ads</string>
+    <string name="menu_create_ad">Create an ad</string>
+    <string name="menu_categories">Categories</string>
+
+</resources>
+

@@ -1,0 +1,7 @@
+<resources>
+
+    <!-- Strings related to description activity -->
+    <string name="act_description_service">Service</string>
+    <string name="act_description_price">Tarif</string>
+    
+</resources>

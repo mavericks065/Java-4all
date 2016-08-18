@@ -1,0 +1,23 @@
+<resources>
+
+    <string name="title_activity_list">Your shared drawings</string>
+
+    <!-- Strings related to the listing of drawings -->
+    <string name="action_add_drawing">Add</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_choose">Choose action</string>
+
+    <string-array name="action_choose_array">
+        <item name="action_edit">Edit</item>
+        <item name="action_delete">Delete</item>
+    </string-array>
+
+    <string name="action_edit">Edit</string>
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="new_drawing_default_name">New drawing</string>
+    <string name="action_share">Share with a friend</string>
+    <string name="hint_share">friend@friendship.com</string>
+
+
+</resources>

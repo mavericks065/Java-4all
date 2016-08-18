@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- <string name="server_url">http://192.168.0.103:8888</string> -->
+    <string name="server_url">http://10.0.0.12:8888</string>
+    <string name="url_ads">%1$s/list/announces</string>
+    <string name="url_ads_by_categories">%1$s/list/announces/categories=%2$s</string>
+    <string name="url_ads_by_user">%1$s/list/announces/owner/email=%2$s</string>
+    <string name="url_ads_by_string">%1$s/list/announces/query=%2$s</string>
+    <string name="url_login">%1$s/login/users/email=%2$s&amp;password=%3$s&amp;lon=%4$s&amp;lat=%5$s</string>
+    <string name="url_create_ad">%1$s/add/announces</string>
+    <string name="url_categories">%1$s/list/categories</string>
+    <string name="url_create_user">%1$s/add/users</string>
+    <string name="url_update_user">%1$s/update/users</string>
+    <string name="url_update_my_ad">%1$s/update/announces</string>
+    <string name="url_delete_my_ad">%1$s/delete/announces</string>
+</resources>

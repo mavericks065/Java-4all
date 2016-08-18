@@ -1,0 +1,17 @@
+<resources>
+
+    <!-- Strings related to create ad activity -->
+    <string name="create_ad_hint_title">Title</string>
+    <string name="create_ad_text_constraint">Be careful : you will not be allowed to change the title of your service later.</string>
+    <string name="create_ad_text_place_instructions">The city and postal code where you want to exercise your service must both be filled. If you select a perimeter we will deduct in you also move.</string>
+    <string name="create_ad_text_skype_instructions">Telecommuting: check box if you also want to practice your work remotely</string>
+    <string name="create_ad_hint_description">Service description</string>
+    <string name="create_ad_hint_address">Address - not required</string>
+    <string name="create_ad_hint_address_city">City</string>
+    <string name="create_ad_hint_address_zip_code">Zip code</string>
+    <string name="create_ad_hint_price">Price</string>
+    <string name="create_ad_action_validate">Create ad</string>
+    <string name="create_my_ad_perimeter">Perimeter</string>
+    <string name="create_ad_checkbox_remote">Skype</string>
+
+</resources>

@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="my_ad_description">Service</string>
+    <string name="my_ad_price">Price</string>
+    <string name="my_ad_update_button">Update my ad</string>
+    <string name="my_ad_delete_button">Delete my ad</string>
+
+</resources>

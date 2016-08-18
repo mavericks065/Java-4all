@@ -1,0 +1,28 @@
+use mobileservicemdb;
+
+
+db.users.drop();
+db.announces.drop();
+db.categories.drop();
+db.tracking.drop();
+
+
+db.users.save({"email" : "tutu@tutu.com", "password" : "test", "firstname" : "tutuFirstName", "lastname" : "tutuLastName"});
+db.users.save({"email" : "paulo@test.com", "password" : "test", "firstname" : "paulo", "lastname" : "TheLastName"});
+
+
+db.announces.save({"_id": "1", "title": "Cours de maths", "description": "cours de mathématiques pour collégiens", "price": "15", "categories": ["Cours"], "owner": {"email": "paulo@test.com", "firstname": "paulo", "lastname": "TheLastName"}, "operatingPlace" : {"address" : "182 boulevard de la villette", "city" : "paris", "zip" : "75019", "isRemoteWorker" : "true", "perimeter" : "5"}});
+db.announces.save({"_id" : "2", "title" : "Cours de mathématiques", "description" : "cours de mathématiques éléves évoluant dans le supérieur", "price" : "30", "categories" : ["Cours"], "owner" : { "email" : "paulo@test.com", "firstname" : "paulo", "lastname" : "TheLastName" }, "operatingPlace" : {"city" : "paris", "zip" : "75017", "perimeter" : "5" }});
+db.announces.save({"_id" : "3", "title" : "Plombier", "description" : "gére tous les petits travaux que vous pouvez avoir dans votre maison ou appartemetn", "price" : "25", "categories" : ["Travaux manuels"], "owner" : { "email" : "tutu@tutu.com", "firstname" : "tutuFirstName", "lastname" : "tutuLastName"}, "operatingPlace" : {"city" : "Plaisir", "zip" : "78370", "perimeter" : "30"}});
+db.announces.save({"_id" : "4", "title" : "Aide à domicile", "description" : "entretien de l'appartement, faire les courses, sortir le chien, donner à manger aux animaux, faire le rangement", "price" : "35", "categories" : ["Travaux manuels", "Aide à domicile"], "owner" : { "email" : "paulo@test.com", "firstname" : "paulo", "lastname" : "TheLastName"}, "operatingPlace" : {"city" : "saint germain en laye", "zip" : "78100", "perimeter" : "30"}});
+
+
+db.categories.save({"_id" : 1, "name" : "Cours"});
+db.categories.save({"_id" : 2, "name" : "Aide à domicile"});
+db.categories.save({"_id" : 3, "name" : "Travaux manuels"});
+db.categories.save({"_id" : 4, "name" : "Mécanique"});
+
+db.tracking.save({tracking_file : "shittyId75015Paris", email : "tutu@tutu.com", connections : [{time : "2014/03/15 12:32:43", loc : {lng : 0, lat : 43}}, {time : "2014/03/16 08:39:13", loc : {lng : 0.21 ,lat : 49}}], my_announces_activity : [{announce_id : "3", time : "2014/03/15 12:42:57", loc : {lng : 0.21 ,lat : 49}, action : "add"}, {announce_id : "3", time : "2014/03/15 12:45:57", loc : {lng : 0, lat : 43}, action : "update"}] });
+db.tracking.save({"tracking_file" : "shittyId2Paris75015", "email" : "paulo@test.com", connections : [{time : "2014/02/15 11:20:45", loc : {lng : 0.41, lat : 47.23}}, {time : "2014/01/19 06:01:17", loc : {lng : 1.57, lat : 48.89}}], my_announces_activity : [{announce_id : "1", time : "06:05:12", loc : {lng : 0.41, lat : 47.23}, action : "add"}, {announce_id : "2", time : "06:05:12", loc : {lng : 0.41, lat : 47.23}, action : "add"}] });
+
+db.users.ensureIndex({ email : 1}, {unique : true })

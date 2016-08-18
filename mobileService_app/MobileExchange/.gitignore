@@ -1,0 +1,11 @@
+.svn
+bin/
+/.settings
+*.prefs
+/gen
+.idea
+MobileExchange.iml
+/out
+.project
+project.properties
+.classpath

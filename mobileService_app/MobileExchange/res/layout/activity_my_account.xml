@@ -1,0 +1,166 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+   	android:paddingLeft="16dp"
+   	android:paddingRight="16dp" >
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+		android:layout_marginBottom="8dp" >
+        <ImageView
+            android:id="@+id/my_image_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"/>
+
+        <TextView
+            android:id="@+id/my_account_mail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </LinearLayout>
+   	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+		android:layout_marginBottom="8dp" >
+        <TextView
+            android:id="@+id/textview_my_account_firstname"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/first_name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_weight="2" />
+
+        <EditText
+            android:id="@+id/my_account_first_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+   	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+		android:layout_marginBottom="8dp" >
+        <TextView
+            android:id="@+id/textview_my_account_lastname"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/last_name"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+            android:layout_weight="2"/>
+        <EditText
+            android:id="@+id/my_account_last_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+	</LinearLayout>
+	<LinearLayout 
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal"
+			android:layout_marginBottom="8dp" >
+        <TextView
+            android:id="@+id/textview_my_old_account_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/my_account_old_pwd"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_weight="2" />
+        <EditText
+            android:id="@+id/my_old_account_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:inputType="textPassword" 
+            android:layout_weight="1"/>
+	    </LinearLayout>
+	   	<LinearLayout 
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal"
+			android:layout_marginBottom="8dp" >
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/my_account_new_pwd"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+            android:layout_weight="2"/>
+        <EditText
+            android:id="@+id/my_new_password_account"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:inputType="textPassword" 
+            android:layout_weight="1"/>
+    </LinearLayout>
+   	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+		android:layout_marginBottom="8dp" >
+        <TextView
+            android:id="@+id/textview_my_new_account_password_confirmation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/my_account_pwd_confirmation"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+            android:layout_weight="2"/>
+        <EditText
+            android:id="@+id/my_new_account_password_confirmation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:inputType="textPassword" 
+            android:layout_weight="1"/>
+    </LinearLayout>
+   	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+		android:layout_marginBottom="8dp" >
+        <TextView
+            android:id="@+id/textview_my_sexe_account"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/my_account_sexe"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+            android:layout_weight="2"/>
+        <Spinner
+            android:id="@+id/my_sexe_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
+   	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+		android:layout_marginBottom="8dp" >
+        <TextView
+            android:id="@+id/textview_my_account_address"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/my_account_address"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+            android:layout_weight="2"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/my_account_address"
+            android:layout_weight="1"/>
+	</LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+          android:text="@string/my_account_button"
+            android:id="@+id/update_my_account_information"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"/>
+</LinearLayout>
