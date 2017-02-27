@@ -30,7 +30,7 @@ public class MyRegex {
  import java.util.regex.Pattern;
  import java.util.Scanner;
 
- class Solution{
+ class BalancedBracketSolution{
 
  public static void main(String []args)
  {

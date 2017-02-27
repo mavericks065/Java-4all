@@ -33,7 +33,7 @@ public class BigIntegerPbHackerRank {
      Sample Output
 
      1254
-     24680
+     224680
      Explanation
 
 

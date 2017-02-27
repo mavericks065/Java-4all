@@ -5,7 +5,6 @@ import java.util.*;
 public class MapProblem {
 
     public static void main(String[] args) {
-        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
         Scanner in = new Scanner(System.in);
         // my code
         Map<String, Integer> contacts = new HashMap<>();
