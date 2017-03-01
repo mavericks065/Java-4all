@@ -1,11 +1,9 @@
 package com.example.model;
 
 /**
- * Created by Nicolas Guignard on 15/06/2016.
- *
  * Defines the status of the message
  */
-public enum QueueMessageStatus {
+public enum EventStatus {
 
     // New Unprocessed message
     NEW,

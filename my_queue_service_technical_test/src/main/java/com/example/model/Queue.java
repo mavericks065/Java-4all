@@ -1,27 +1,26 @@
 package com.example.model;
 
-/**
- * Created by Nicolas Guignard on 15/06/2016.
- *
- * Idendifies a queue to handle a message.
- */
-public interface Queue {
+public class Queue {
+
+    private final String name;
+    private final long visibilityTimeout;
+
+    public Queue(final String name, final long visibilityTimeout) {
+        this.name = name;
+        this.visibilityTimeout = visibilityTimeout;
+    }
 
     /**
      * The friendly name of the queue. Persisted with the queue message for identification purposes
      *
      * @return
+     *      queue name
      */
-    String getQueueName();
+    public String getName() {
+        return name;
+    }
 
-    /**
-     * The visibility of the messages of the queue.
-     *
-     * @return
-     */
-    long getVisibilityTimeout();
-
-    static Queue create(String queueName) {
-        return new QueueImpl(queueName);
+    public long getVisibilityTimeout() {
+        return visibilityTimeout;
     }
 }
