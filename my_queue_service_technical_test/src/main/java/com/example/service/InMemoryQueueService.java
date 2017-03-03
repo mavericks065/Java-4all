@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.callable.InMemoryCallable;
 import com.example.model.Event;
 import com.example.model.EventStatus;
 import com.example.model.Queue;
@@ -56,37 +57,13 @@ public class InMemoryQueueService<E extends Event> implements QueueService<E> {
             return result;
         }
 
-        for (E event : existingQueue) {
-            if (EventStatus.NEW.equals(event.getStatus())) {
-                event.setStatus(EventStatus.INVISIBLE);
-
-                // re-inject in the list of queues the queue with a modified event
-                queues.put(queue, existingQueue);
-
-                result = Optional.of(event);
-                break;
-            }
-        }
+        result = getFirstNewEvent(queue, result, existingQueue);
 
         if (result.isPresent()) {
             // after the visibility timeout, if an INVISIBLE message has not been removed it is set back to NEW
             E tempEvent = result.get();
 
-            final Runnable runnable = () -> {
-                final ConcurrentLinkedQueue<E> secondExistingQueue = queues.get(queue);
-
-                if (secondExistingQueue.contains(tempEvent)) {
-
-                    secondExistingQueue.remove(tempEvent);
-                    tempEvent.setStatus(EventStatus.NEW);
-
-                    final ConcurrentLinkedQueue<E> orderedQueue = new ConcurrentLinkedQueue<E>();
-                    orderedQueue.add(tempEvent);
-                    orderedQueue.addAll(secondExistingQueue);
-
-                    queues.put(queue, orderedQueue);
-                }
-            };
+            final Callable runnable = new InMemoryCallable(queues, queue, tempEvent);
             executorService.schedule(
                     runnable,
                     queue.getVisibilityTimeout(),
@@ -116,6 +93,22 @@ public class InMemoryQueueService<E extends Event> implements QueueService<E> {
         queue.remove(event);
 
         return true;
+    }
+
+    private Optional<E> getFirstNewEvent(final Queue queue, Optional<E> result,
+                                         final ConcurrentLinkedQueue<E> existingQueue) {
+        for (E event : existingQueue) {
+            if (EventStatus.NEW.equals(event.getStatus())) {
+                event.setStatus(EventStatus.INVISIBLE);
+
+                // re-inject in the list of queues the queue with a modified event
+                queues.put(queue, existingQueue);
+
+                result = Optional.of(event);
+                break;
+            }
+        }
+        return result;
     }
 
     @VisibleForTesting
