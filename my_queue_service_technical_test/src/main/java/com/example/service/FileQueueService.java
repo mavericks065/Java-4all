@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.callable.FileCallable;
 import com.example.model.Event;
 import com.example.model.EventStatus;
 import com.example.model.Queue;
@@ -16,6 +17,9 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -32,9 +36,11 @@ public class FileQueueService<E extends Event> implements QueueService<E> {
     private static final int LOCK_RETRY = 50;
 
     private final File basePath;
+    private final ScheduledExecutorService executorService;
 
-    public FileQueueService(final File basePath) {
+    public FileQueueService(final File basePath, ScheduledExecutorService executorService) {
         this.basePath = checkNotNull(basePath);
+        this.executorService = checkNotNull(executorService);
     }
 
     @Override
@@ -72,12 +78,12 @@ public class FileQueueService<E extends Event> implements QueueService<E> {
     }
 
     @Override
-    public Optional pull(Queue queue) {
-        checkNotNull(queue);
+    public Optional pull(Queue topic) {
+        checkNotNull(topic);
 
-        final File topicPath = getTopic(queue);
+        final File topicPath = getTopic(topic);
         if (topicPath == null) {
-            LOGGER.severe(String.format("Queue %s does not exist", queue));
+            LOGGER.severe(String.format("Queue %s does not exist", topic));
             return Optional.empty();
         }
 
@@ -90,8 +96,9 @@ public class FileQueueService<E extends Event> implements QueueService<E> {
             final UUID id = UUID.fromString(firstFile.get().getName()
                     .replace(EventStatus.NEW.toString(), "").replace(EVENT_EXTENSION, ""));
 
-            File invisibleFile = new File(String.format("%s/%s/%s-%s%s", basePath, queue.getName(),
+            File invisibleFile = new File(String.format("%s/%s/%s-%s%s", basePath, topic.getName(),
                     id.toString(), EventStatus.INVISIBLE, EVENT_EXTENSION));
+
             firstFile.get().renameTo(invisibleFile);
 
             try {
@@ -99,7 +106,12 @@ public class FileQueueService<E extends Event> implements QueueService<E> {
                 final Event event = new Event(id, content);
                 event.setStatus(EventStatus.INVISIBLE);
 
-//                delete((E) event, queue);
+                // callable that puts back the event in a visible state if not deleted
+                final Callable callable = new FileCallable(basePath, topic, invisibleFile);
+                executorService.schedule(
+                        callable,
+                        topic.getVisibilityTimeout(),
+                        TimeUnit.MILLISECONDS);
 
                 return Optional.of((E) event);
             } catch (IOException e) {

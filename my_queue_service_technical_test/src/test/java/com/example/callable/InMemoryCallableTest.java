@@ -16,11 +16,11 @@ import static org.junit.Assert.assertNull;
 
 public class InMemoryCallableTest {
 
-    private InMemoryCallable<Event> runnable;
+    private InMemoryCallable<Event> callable;
 
     @After
     public void tearDown() throws Exception {
-        runnable = null;
+        callable = null;
     }
 
     @Test
@@ -41,10 +41,10 @@ public class InMemoryCallableTest {
         linkQueue.add(event4);
         queues.put(topic, linkQueue);
 
-        runnable = new InMemoryCallable<>(queues, topic, event);
+        callable = new InMemoryCallable<>(queues, topic, event);
 
         // WHEN
-        ConcurrentMap<Queue, ConcurrentLinkedQueue<Event>> result = runnable.call();
+        ConcurrentMap<Queue, ConcurrentLinkedQueue<Event>> result = callable.call();
 
         // THEN
         assertEquals(4, result.get(topic).size());
@@ -70,10 +70,10 @@ public class InMemoryCallableTest {
         linkQueue.add(event2);
         queues.put(topic, linkQueue);
 
-        runnable = new InMemoryCallable<>(queues, topic, new Event(UUID.randomUUID(), "test"));
+        callable = new InMemoryCallable<>(queues, topic, new Event(UUID.randomUUID(), "test"));
 
         // WHEN
-        ConcurrentMap<Queue, ConcurrentLinkedQueue<Event>> result = runnable.call();
+        ConcurrentMap<Queue, ConcurrentLinkedQueue<Event>> result = callable.call();
 
         // THEN
         assertNull(result);

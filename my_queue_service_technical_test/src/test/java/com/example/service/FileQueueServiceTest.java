@@ -9,6 +9,8 @@ import org.junit.Test;
 import java.io.File;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import static com.example.model.EventStatus.INVISIBLE;
 import static org.junit.Assert.*;
@@ -18,13 +20,14 @@ public class FileQueueServiceTest {
     private QueueService queueService;
     private File basePath;
     private Queue queue;
+    private ScheduledExecutorService executorService;
 
     @Before
     public void setUp(){
         basePath = new File(".");
         queue = new Queue("test", 500);
-
-        queueService = new FileQueueService(basePath);
+        executorService = new ScheduledThreadPoolExecutor(1);
+        queueService = new FileQueueService(basePath, executorService);
     }
 
     @After

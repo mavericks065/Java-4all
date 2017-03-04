@@ -277,3 +277,5 @@ my_queue_service_technical_test/target/classes/com/example/service/SqsQueueServi
 my_queue_service_technical_test/target/test-classes/com/example/callable/InMemoryCallableTest.class
 my_queue_service_technical_test/target/test-classes/com/example/service/FileQueueServiceTest.class
 my_queue_service_technical_test/target/test-classes/com/example/service/InMemoryQueueServiceTest.class
+my_queue_service_technical_test/target/classes/com/example/callable/FileCallable.class
+my_queue_service_technical_test/target/test-classes/com/example/callable/FileCallableTest.class

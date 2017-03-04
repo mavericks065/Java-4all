@@ -46,27 +46,27 @@ public class InMemoryQueueService<E extends Event> implements QueueService<E> {
     }
 
     @Override
-    public Optional<E> pull(Queue queue) {
-        checkNotNull(queue);
+    public Optional<E> pull(Queue topic) {
+        checkNotNull(topic);
 
         Optional<E> result = Optional.empty();
-        final ConcurrentLinkedQueue<E> existingQueue = queues.get(queue);
+        final ConcurrentLinkedQueue<E> existingQueue = queues.get(topic);
 
         if (existingQueue == null) {
             LOGGER.severe(String.format("Queue %s does not exist", existingQueue));
             return result;
         }
 
-        result = getFirstNewEvent(queue, result, existingQueue);
+        result = getFirstNewEvent(topic, result, existingQueue);
 
         if (result.isPresent()) {
             // after the visibility timeout, if an INVISIBLE message has not been removed it is set back to NEW
             E tempEvent = result.get();
 
-            final Callable runnable = new InMemoryCallable(queues, queue, tempEvent);
+            final Callable callable = new InMemoryCallable(queues, topic, tempEvent);
             executorService.schedule(
-                    runnable,
-                    queue.getVisibilityTimeout(),
+                    callable,
+                    topic.getVisibilityTimeout(),
                     TimeUnit.MILLISECONDS);
 
         }
