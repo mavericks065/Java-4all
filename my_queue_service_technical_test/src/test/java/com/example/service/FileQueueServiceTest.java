@@ -69,7 +69,7 @@ public class FileQueueServiceTest {
         final Event event = new Event(UUID.randomUUID(), "message1");
         final Event event2 = new Event(UUID.randomUUID(), "message2");
         queueService.push(event, queue);
-        Thread.sleep(1000);
+        Thread.sleep(600);
         queueService.push(event2, queue);
 
         // WHEN
