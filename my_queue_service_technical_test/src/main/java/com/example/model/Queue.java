@@ -20,6 +20,10 @@ public class Queue {
         return name;
     }
 
+    /**
+     *
+     * @return visibility timeout
+     */
     public long getVisibilityTimeout() {
         return visibilityTimeout;
     }

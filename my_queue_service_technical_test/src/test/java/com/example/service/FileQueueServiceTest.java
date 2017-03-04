@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.example.model.EventStatus.INVISIBLE;
 import static org.junit.Assert.*;
 
 public class FileQueueServiceTest {
@@ -36,16 +37,16 @@ public class FileQueueServiceTest {
     @Test
     public void pull_queue_should_return_last_event_inserted(){
         // GIVEN
-        final Event event = new Event(UUID.randomUUID(), "message1");
+        final Event event0 = new Event(UUID.randomUUID(), "message0");
+        queueService.push(event0, queue);
 
         // WHEN
-        queueService.push(event, queue);
+        final Optional<Event> eventPulled = queueService.pull(queue);
 
         // THEN
-        Optional<Event> eventPulled = queueService.pull(queue);
         assertTrue(eventPulled.isPresent());
-        assertEquals(event.getUuid(), eventPulled.get().getUuid());
-        assertEquals(event.getValue(), eventPulled.get().getValue());
+        assertEquals(event0.getUuid(), eventPulled.get().getUuid());
+        assertEquals(event0.getValue(), eventPulled.get().getValue());
     }
 
     @Test
@@ -64,36 +65,39 @@ public class FileQueueServiceTest {
         // GIVEN
         final Event event = new Event(UUID.randomUUID(), "message1");
         final Event event2 = new Event(UUID.randomUUID(), "message2");
-
-        // WHEN
         queueService.push(event, queue);
         Thread.sleep(1000);
         queueService.push(event2, queue);
 
-        // THEN
+        // WHEN
         Optional<Event> eventPulled1 = queueService.pull(queue);
+        Optional<Event> eventPulled2 = queueService.pull(queue);
+
+        // THEN
         assertTrue(eventPulled1.isPresent());
         assertEquals(event.getUuid(), eventPulled1.get().getUuid());
         assertEquals(event.getValue(), eventPulled1.get().getValue());
-        Optional<Event> eventPulled2 = queueService.pull(queue);
         assertTrue(eventPulled2.isPresent());
         assertEquals(event2.getUuid(), eventPulled2.get().getUuid());
         assertEquals(event2.getValue(), eventPulled2.get().getValue());
     }
 
     @Test
-    public void delete_queue_should_delete_event(){
+    public void delete_event_should_delete_specified_event_in_the_queue(){
         //given
         final Event event = new Event(UUID.randomUUID(), "message1");
+        event.setStatus(INVISIBLE);
+        queueService.push(event, queue);
 
         //when
-        queueService.push(event, queue);
-        queueService.delete(event, queue);
+        Optional<Event> eventPulled = queueService.pull(queue);
+        boolean result = queueService.delete(eventPulled.get(), queue);
 
 
         // THEN
-        Optional<Event> eventPulled = queueService.pull(queue);
-        assertFalse(eventPulled.isPresent());
+        assertTrue(result);
+        Optional<Event> eventPulled2 = queueService.pull(queue);
+        assertFalse(eventPulled2.isPresent());
     }
 
     private void cleanUp(File folder) {
