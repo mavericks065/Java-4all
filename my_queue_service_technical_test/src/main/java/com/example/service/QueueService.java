@@ -1,54 +1,36 @@
 package com.example.service;
 
-import com.example.model.QueueMessage;
+import com.example.model.Event;
+import com.example.model.Queue;
 
-public interface QueueService {
+import java.util.Optional;
 
-  //
-  // Task 1: Define me.
-  //
-  // This interface should include the following methods.  You should choose appropriate
-  // signatures for these methods that prioritise simplicity of implementation for the range of
-  // intended implementations (in-memory, file, and SQS).  You may include additional methods if
-  // you choose.
-  //
-  // - push
-  //   pushes a message onto a queue.
-  // - pull
-  //   retrieves a single message from a queue.
-  // - delete
-  //   deletes a message from the queue that was received by pull().
-  //
+public interface QueueService<E extends Event> {
 
     /**
      * pushes a queue message onto a queue.
      *
-     * @param queueMessage
+     * @param event to store
+     * @param queue Queue in which the event has to be stored
      */
-    void push(QueueMessage queueMessage);
+    void push(E event, Queue queue);
 
     /**
-     * retrieves a single queue message from a queue. This queue message cannot
+     * retrieves a single event message from a queue. This queue message cannot
      * have the status INVISIBLE.
      *
      * @return
      */
-    QueueMessage pull();
+    Optional<E> pull(Queue queue);
 
     /**
-     * deletes a queue message that was received
+     * deletes an event message that was received in the specific queue passed in
+     * parameter.
      *
-     * @param queueMessage
-     */
-    void delete(QueueMessage queueMessage);
-
-    // removes and returns the next item in line
-    // QueueMessage dequeue();
-
-    /**
-     * is true if the queue is empty, false otherwise
-     *
+     * @param event to be deleted
+     * @param queue where the event is from
      * @return
      */
-    boolean isEmpty();
+    boolean delete(E event, Queue queue);
+
 }

@@ -266,3 +266,16 @@ MyJavaProjectTests/target/classes/fr/ng/swingOrNot/calc/actions/AboutAction.clas
 MyJavaProjectTests/target/classes/fr/ng/swingOrNot/calc/actions/CalculAction.class
 MyJavaProjectTests/target/classes/fr/ng/swingOrNot/calc/actions/LeavingAction.class
 MyJavaProjectTests/target/test-classes/fr/ng/AppTest.class
+my_queue_service_technical_test/target/classes/com/example/exception/QueueException.class
+my_queue_service_technical_test/target/classes/com/example/model/Event.class
+my_queue_service_technical_test/target/classes/com/example/model/EventStatus.class
+my_queue_service_technical_test/target/classes/com/example/model/Queue.class
+my_queue_service_technical_test/target/classes/com/example/service/FileQueueService.class
+my_queue_service_technical_test/target/classes/com/example/service/InMemoryQueueService.class
+my_queue_service_technical_test/target/classes/com/example/service/QueueService.class
+my_queue_service_technical_test/target/classes/com/example/service/SqsQueueService.class
+my_queue_service_technical_test/target/test-classes/com/example/callable/InMemoryCallableTest.class
+my_queue_service_technical_test/target/test-classes/com/example/service/FileQueueServiceTest.class
+my_queue_service_technical_test/target/test-classes/com/example/service/InMemoryQueueServiceTest.class
+my_queue_service_technical_test/target/classes/com/example/callable/FileCallable.class
+my_queue_service_technical_test/target/test-classes/com/example/callable/FileCallableTest.class

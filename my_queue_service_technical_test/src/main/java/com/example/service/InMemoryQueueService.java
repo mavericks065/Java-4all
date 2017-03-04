@@ -1,83 +1,120 @@
 package com.example.service;
 
-import com.example.model.QueueMessage;
-import com.example.model.QueueMessageStatus;
+import com.example.callable.InMemoryCallable;
+import com.example.model.Event;
+import com.example.model.EventStatus;
+import com.example.model.Queue;
+import com.google.common.annotations.VisibleForTesting;
 
-import java.util.LinkedList;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.Optional;
+import java.util.concurrent.*;
+import java.util.logging.Logger;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
 
 /**
  * An in-memory queue, suitable for same-JVM producers and consumers
  */
-public class InMemoryQueueService implements QueueService {
-  //
-  // Task 2: Implement me.
-  //
-    private final LinkedList<QueueMessage> queue;
+public class InMemoryQueueService<E extends Event> implements QueueService<E> {
 
-    public InMemoryQueueService() {
-        queue = new LinkedList<>();
+    private static final Logger LOGGER = Logger.getLogger(InMemoryQueueService.class.getName());
+
+    private final ConcurrentMap<Queue, ConcurrentLinkedQueue<E>> queues;
+    private final ScheduledExecutorService executorService;
+
+    public InMemoryQueueService(final ConcurrentMap<Queue, ConcurrentLinkedQueue<E>> queues,
+                                final ScheduledExecutorService executorService) {
+        this.queues = checkNotNull(queues);
+        this.executorService = checkNotNull(executorService);
     }
 
     @Override
-    public final void push(QueueMessage queueMessage) {
-        // this will ADD a message to the Linked list, it does not PUSH ONTO the stack
-        queue.add(queueMessage);
+    public void push(final E event, final Queue topic) {
+        checkNotNull(event);
+        checkNotNull(topic);
+
+        // get topic
+        ConcurrentLinkedQueue<E> queue = queues.get(topic);
+        // create it if does not exist
+        if (queue == null) {
+            queue = new ConcurrentLinkedQueue();
+            queues.put(topic, queue);
+        }
+
+        queue.add(event);
     }
 
     @Override
-    public final QueueMessage pull() {
+    public Optional<E> pull(Queue topic) {
+        checkNotNull(topic);
 
-        if (isEmpty()) {
-            return null;
+        Optional<E> result = Optional.empty();
+        final ConcurrentLinkedQueue<E> existingQueue = queues.get(topic);
+
+        if (existingQueue == null) {
+            LOGGER.severe(String.format("Queue %s does not exist", existingQueue));
+            return result;
         }
 
-        // pull just NEW messages
-        QueueMessage result = null;
+        result = getFirstNewEvent(topic, result, existingQueue);
 
-        for (QueueMessage q : queue) {
-            if (q.getQueueMessageStatus() != QueueMessageStatus.INVISIBLE) {
-
-                // we set the status to INVISIBLE to not pull again a message already pulled and not deleted
-                q.setQueueMessageStatus(QueueMessageStatus.INVISIBLE);
-                result = q;
-                break;
-            }
-        }
-
-        if (result != null) {
+        if (result.isPresent()) {
             // after the visibility timeout, if an INVISIBLE message has not been removed it is set back to NEW
-            QueueMessage temp = result;
+            E tempEvent = result.get();
 
-            final Timer timer = new Timer();
-            timer.schedule (new TimerTask() {
-                public void run() {
-                    if (queue.contains(temp)) {
-                        queue.removeFirstOccurrence(temp);
-                        temp.setQueueMessageStatus(QueueMessageStatus.NEW);
-                        queue.push(temp);
-                    }
-                }
-            }, result.getQueue().getVisibilityTimeout());
+            final Callable callable = new InMemoryCallable(queues, topic, tempEvent);
+            executorService.schedule(
+                    callable,
+                    topic.getVisibilityTimeout(),
+                    TimeUnit.MILLISECONDS);
+
         }
 
         return result;
     }
 
     @Override
-    public final void delete(QueueMessage queueMessage) {
-        // we remove the first occurrence (FIFO)
-        queue.removeFirstOccurrence(queueMessage);
+    public boolean delete(E event, Queue topic) {
+        checkNotNull(event);
+        checkNotNull(topic);
+
+        final ConcurrentLinkedQueue<E> queue = queues.get(topic);
+        if (queue == null) {
+            LOGGER.severe(String.format("Queue %s does not exist", queue));
+            return false;
+        }
+
+        if (!queue.contains(event)) {
+            LOGGER.severe(String.format("Queue %s does not contain the event %s", queue, event.getUuid()));
+            return false;
+        }
+
+        queue.remove(event);
+
+        return true;
     }
 
-    @Override
-    public final boolean isEmpty() {
-        return queue.isEmpty();
+    private Optional<E> getFirstNewEvent(final Queue queue, Optional<E> result,
+                                         final ConcurrentLinkedQueue<E> existingQueue) {
+        for (E event : existingQueue) {
+            if (EventStatus.NEW.equals(event.getStatus())) {
+                event.setStatus(EventStatus.INVISIBLE);
+
+                // re-inject in the list of queues the queue with a modified event
+                queues.put(queue, existingQueue);
+
+                result = Optional.of(event);
+                break;
+            }
+        }
+        return result;
     }
 
-    public LinkedList<QueueMessage> getQueue() {
-        return queue;
+    @VisibleForTesting
+    protected ConcurrentLinkedQueue<E> getQueue(Queue queue) {
+        return queues.get(queue);
     }
 
 }
+
