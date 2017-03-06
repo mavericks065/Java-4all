@@ -15,7 +15,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class SqsQueueServiceTest {
@@ -23,7 +22,6 @@ public class SqsQueueServiceTest {
     private SqsQueueService queueService;
 
     private AmazonSQSClient sqsClient;
-    private ReceiveMessageRequest receiveMessageRequest;
 
     private Queue queue;
 
@@ -33,7 +31,6 @@ public class SqsQueueServiceTest {
         queue = new Queue("queueNameTest", 300);
 
         sqsClient = mock(AmazonSQSClient.class);
-        receiveMessageRequest = mock(ReceiveMessageRequest.class);
 
         queueService = new SqsQueueService(sqsClient, queue);
     }
@@ -42,7 +39,6 @@ public class SqsQueueServiceTest {
     public void tearDown() {
         queue = null;
         sqsClient = null;
-        receiveMessageRequest = null;
         queueService = null;
     }
 

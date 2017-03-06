@@ -174,14 +174,11 @@ public class FileQueueService<E extends Event> implements QueueService<E> {
             lock(lock);
         } catch (InterruptedException e) {
             LOGGER.severe(String.format("Error while waiting lock %s. You might have lost data...", lock));
-            return;
         }
     }
 
     private File getOrCreateLockFile(File topic) {
-        final File lockFile = new File(String.format("%s/%s/%s", basePath, topic.getName(), LOCK));
-
-        return lockFile;
+        return new File(String.format("%s/%s/%s", basePath, topic.getName(), LOCK));
     }
 
     private void unlock(File lock) {

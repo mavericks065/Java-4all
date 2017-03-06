@@ -21,13 +21,12 @@ public class FileQueueServiceTest {
     private QueueService queueService;
     private File basePath;
     private Queue queue;
-    private ScheduledExecutorService executorService;
 
     @Before
     public void setUp(){
         basePath = new File(".");
         queue = new Queue("test", 500);
-        executorService = new ScheduledThreadPoolExecutor(1);
+        ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1);
         queueService = new FileQueueService(basePath, executorService);
     }
 

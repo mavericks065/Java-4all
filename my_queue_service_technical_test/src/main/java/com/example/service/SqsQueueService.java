@@ -23,7 +23,6 @@ public class SqsQueueService<E extends Event> implements QueueService<E> {
 
     private final AmazonSQSClient sqsClient;
     private final ReceiveMessageRequest receiveMessageRequest;
-    private final Queue queue;
 
     /**
      * constructor that takes SQS client to initialise our service
@@ -33,7 +32,7 @@ public class SqsQueueService<E extends Event> implements QueueService<E> {
     public SqsQueueService(final AmazonSQSClient sqsClient, final Queue queue) {
 
         this.sqsClient = checkNotNull(sqsClient);
-        this.queue = checkNotNull(queue);
+        Queue queue1 = checkNotNull(queue);
 
         this.receiveMessageRequest = new ReceiveMessageRequest(queue.getName());
 
@@ -74,10 +73,9 @@ public class SqsQueueService<E extends Event> implements QueueService<E> {
         final Message sqsMessage = sqsClient.receiveMessage(receiveMessageRequest)
                 .getMessages()
                 .get(0);
-        final Optional<E> eventMessage = Optional.ofNullable(
-                (E) new Event(UUID.fromString(sqsMessage.getAttributes().get("uuid")), sqsMessage.getBody()));
 
-        return eventMessage;
+        return Optional.ofNullable(
+                (E) new Event(UUID.fromString(sqsMessage.getAttributes().get("uuid")), sqsMessage.getBody()));
     }
 
     @Override
