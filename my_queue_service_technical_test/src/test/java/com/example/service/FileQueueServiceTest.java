@@ -12,6 +12,7 @@ import java.util.UUID;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
+import static com.example.util.TestUtils.cleanUp;
 import static com.example.model.EventStatus.INVISIBLE;
 import static org.junit.Assert.*;
 
@@ -103,17 +104,4 @@ public class FileQueueServiceTest {
         assertFalse(eventPulled2.isPresent());
     }
 
-    private void cleanUp(File folder) {
-        File[] files = folder.listFiles();
-        if(files!=null) {
-            for(File f: files) {
-                if(f.isDirectory()) {
-                    cleanUp(f);
-                } else {
-                    f.delete();
-                }
-            }
-        }
-        folder.delete();
-    }
 }

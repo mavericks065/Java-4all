@@ -38,7 +38,7 @@ public class InMemoryQueueService<E extends Event> implements QueueService<E> {
         ConcurrentLinkedQueue<E> queue = queues.get(topic);
         // create it if does not exist
         if (queue == null) {
-            queue = new ConcurrentLinkedQueue();
+            queue = new ConcurrentLinkedQueue<>();
             queues.put(topic, queue);
         }
 
@@ -64,11 +64,7 @@ public class InMemoryQueueService<E extends Event> implements QueueService<E> {
             E tempEvent = result.get();
 
             final Callable callable = new InMemoryCallable(queues, topic, tempEvent);
-            executorService.schedule(
-                    callable,
-                    topic.getVisibilityTimeout(),
-                    TimeUnit.MILLISECONDS);
-
+            executorService.schedule(callable, topic.getVisibilityTimeout(), TimeUnit.MILLISECONDS);
         }
 
         return result;

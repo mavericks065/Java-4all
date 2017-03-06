@@ -55,20 +55,15 @@ public class FileQueueService<E extends Event> implements QueueService<E> {
         final File lock = getOrCreateLockFile(topicPath);
         waitForLock(lock);
 
-        final File messagePath = new File(String.format("%s/%s/%s-%s%s", basePath, queue.getName(),
-                event.getUuid().toString(), EventStatus.NEW, EVENT_EXTENSION));
-        if (messagePath.isFile()) {
-            LOGGER.severe(String.format("This event with id %s has already been stored", event.getUuid().toString()));
-            return;
-        }
-
         try {
-            messagePath.createNewFile();
+            final File messagePath = createEventFile(event, queue);
+            if (messagePath == null) return;
 
             final FileWriter writer = new FileWriter(messagePath);
             writer.write(event.getValue());
             writer.flush();
             writer.close();
+
         } catch (IOException e) {
             LOGGER.severe("Error at creating new file");
         } finally {
@@ -78,7 +73,7 @@ public class FileQueueService<E extends Event> implements QueueService<E> {
     }
 
     @Override
-    public Optional pull(Queue topic) {
+    public Optional<E> pull(Queue topic) {
         checkNotNull(topic);
 
         final File topicPath = getTopic(topic);
@@ -92,33 +87,29 @@ public class FileQueueService<E extends Event> implements QueueService<E> {
 
         final Optional<File> firstFile = getFirstLastModifiedFile(topicPath);
 
-        if (firstFile.isPresent()) {
-            final UUID id = UUID.fromString(firstFile.get().getName()
-                    .replace(EventStatus.NEW.toString(), "").replace(EVENT_EXTENSION, ""));
+        try {
+            if (firstFile.isPresent()) {
+                final UUID id = UUID.fromString(firstFile.get().getName()
+                        .replace(EventStatus.NEW.toString(), "").replace(EVENT_EXTENSION, ""));
 
-            File invisibleFile = new File(String.format("%s/%s/%s-%s%s", basePath, topic.getName(),
-                    id.toString(), EventStatus.INVISIBLE, EVENT_EXTENSION));
+                final File invisibleFile = new File(String.format("%s/%s/%s-%s%s", basePath, topic.getName(),
+                        id.toString(), EventStatus.INVISIBLE, EVENT_EXTENSION));
 
-            firstFile.get().renameTo(invisibleFile);
-
-            try {
+                firstFile.get().renameTo(invisibleFile);
                 final String content = new String(Files.readAllBytes(Paths.get(String.valueOf(invisibleFile))), StandardCharsets.UTF_8);
                 final Event event = new Event(id, content);
                 event.setStatus(EventStatus.INVISIBLE);
 
                 // callable that puts back the event in a visible state if not deleted
                 final Callable callable = new FileCallable(basePath, topic, invisibleFile);
-                executorService.schedule(
-                        callable,
-                        topic.getVisibilityTimeout(),
-                        TimeUnit.MILLISECONDS);
+                executorService.schedule(callable, topic.getVisibilityTimeout(), TimeUnit.MILLISECONDS);
 
                 return Optional.of((E) event);
-            } catch (IOException e) {
-                LOGGER.severe("Error at deleting file during at pull operation");
-            } finally {
-                unlock(lockFile);
             }
+        } catch (IOException e) {
+            LOGGER.severe("Error at deleting file during at pull operation");
+        } finally {
+            unlock(lockFile);
         }
 
         return Optional.empty();
@@ -139,6 +130,18 @@ public class FileQueueService<E extends Event> implements QueueService<E> {
                 event.getUuid().toString(), event.getStatus(), EVENT_EXTENSION));
         return messagePath.delete();
 
+    }
+
+    private File createEventFile(E event, Queue queue) throws IOException {
+        final File messagePath = new File(String.format("%s/%s/%s-%s%s", basePath, queue.getName(),
+                event.getUuid().toString(), EventStatus.NEW, EVENT_EXTENSION));
+        if (messagePath.isFile()) {
+            LOGGER.severe(String.format("This event with id %s has already been stored", event.getUuid().toString()));
+            return null;
+        }
+
+        messagePath.createNewFile();
+        return messagePath;
     }
 
     private File getOrCreateTopicPath(final Queue queue) {
