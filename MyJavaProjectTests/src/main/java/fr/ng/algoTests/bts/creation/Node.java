@@ -1,4 +1,4 @@
-package fr.ng.algoTests;
+package fr.ng.algoTests.bts.creation;
 
 public class Node {
     private int data;
@@ -15,11 +15,19 @@ public class Node {
         return left;
     }
 
+    public Node getRight() {
+        return right;
+    }
+
     public void setLeft(Node left) {
         this.left = left;
     }
 
     public void setRight(Node right) {
         this.right = right;
+    }
+
+    public int getData() {
+        return data;
     }
 }

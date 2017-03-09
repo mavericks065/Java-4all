@@ -1,4 +1,4 @@
-package fr.ng.algoTests;
+package fr.ng.algoTests.bts;
 
 import java.util.stream.IntStream;
 

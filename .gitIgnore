@@ -279,3 +279,7 @@ my_queue_service_technical_test/target/test-classes/com/example/service/FileQueu
 my_queue_service_technical_test/target/test-classes/com/example/service/InMemoryQueueServiceTest.class
 my_queue_service_technical_test/target/classes/com/example/callable/FileCallable.class
 my_queue_service_technical_test/target/test-classes/com/example/callable/FileCallableTest.class
+MyJavaProjectTests/target/classes/fr/ng/algoTests/bts/BinaryTree.class
+MyJavaProjectTests/target/classes/fr/ng/algoTests/bts/DistanceBetweenNodes.class
+MyJavaProjectTests/target/classes/fr/ng/algoTests/bts/Node.class
+MyJavaProjectTests/target/classes/fr/ng/strings/TestStringStaircase.class
