@@ -292,3 +292,7 @@ MyJavaProjectTests/target/classes/fr/ng/algoTests/bts/creation/Node.class
 MyJavaProjectTests/target/classes/fr/ng/algoTests/BalancedBracketSolution.class
 MyJavaProjectTests/target/classes/fr/ng/datastructures/MapProblem.class
 MyJavaProjectTests/target/classes/fr/ng/strings/StringCompareChallenge.class
+MyJavaProjectTests/target/classes/fr/ng/algoTests/bts/bstOrderingAndOperations/BinaryTree.class
+MyJavaProjectTests/target/classes/fr/ng/algoTests/bts/bstOrderingAndOperations/DistanceBetweenNodes.class
+MyJavaProjectTests/target/classes/fr/ng/algoTests/bts/bstOrderingAndOperations/Main.class
+MyJavaProjectTests/target/classes/fr/ng/algoTests/bts/bstOrderingAndOperations/Node.class

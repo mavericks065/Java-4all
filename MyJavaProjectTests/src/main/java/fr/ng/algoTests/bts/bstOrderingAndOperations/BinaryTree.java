@@ -66,6 +66,30 @@ public class BinaryTree {
         System.out.print(node.getData() + " ");
     }
 
+    public void addNote(final Node node) {
+        if (root == null) {
+            root = node;
+        } else {
+            addNodeToTree(root, node);
+        }
+    }
+
+    private void addNodeToTree(final Node root, final Node newNode) {
+        if (newNode.getData() < root.getData()) {
+            if (root.getLeft() == null) {
+                root.setLeft(newNode);
+            } else {
+                addNodeToTree(root.getLeft(), newNode);
+            }
+        } else {
+            if (root.getRight() == null) {
+                root.setRight(newNode);
+            } else {
+                addNodeToTree(root.getRight(), newNode);
+            }
+        }
+    }
+
     public Node getRoot() {
         return root;
     }
