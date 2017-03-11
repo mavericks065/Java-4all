@@ -2,7 +2,7 @@ package fr.ng.algoTests.bts.creation;
 
 public class BinaryTree {
 
-    static Node root;
+    private Node root;
 
     public Node createTree(int[] parentValues, int n) {
 
@@ -64,7 +64,8 @@ public class BinaryTree {
 
         BinaryTree tree = new BinaryTree();
 //        int parent[] = new int[]{-1, 0, 0, 1, 1, 3, 5};
-        int parent[] = new int[]{1, 5, 5, 2, 2, -1, 3};
+//        int parent[] = new int[]{1, 5, 5, 2, 2, -1, 3};
+        int parent[] = new int[]{3, 8, 1, 4, 12};
         int n = parent.length;
         Node node = tree.createTree(parent, n);
         System.out.println("Inorder traversal of constructed tree ");
