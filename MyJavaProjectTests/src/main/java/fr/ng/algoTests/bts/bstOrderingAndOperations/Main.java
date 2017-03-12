@@ -21,6 +21,9 @@ public class Main {
         System.out.println("add Node : ");
         tree.addNote(new Node(1));
         BinaryTree.preOrder(tree.getRoot());
+        System.out.println();
+        boolean result = tree.contains(new Node(42));
+        System.out.println("Node is contained : " + result);
 
     }
 }

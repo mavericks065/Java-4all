@@ -90,6 +90,31 @@ public class BinaryTree {
         }
     }
 
+    public boolean contains(final Node node) {
+        boolean result = findWithParent(node, root) != null ?
+                true :
+                false;
+        return result;
+    }
+
+    private Node findWithParent(Node node, Node parent) {
+        Node current = this.root;
+        parent = null;
+
+        while (current != null) {
+            if (current.getData() > node.getData()) {
+                parent = current;
+                current = current.getLeft();
+            } else if (current.getData() < node.getData()) {
+                parent = current;
+                current = current.getRight();
+            } else {
+                break;
+            }
+        }
+        return current;
+    }
+
     public Node getRoot() {
         return root;
     }
