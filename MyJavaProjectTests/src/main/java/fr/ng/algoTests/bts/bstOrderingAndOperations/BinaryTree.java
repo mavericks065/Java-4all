@@ -97,6 +97,49 @@ public class BinaryTree {
         return result;
     }
 
+    public int findDistanceBetweenNode(int n1, int n2) {
+        int x = pathlength(root, n1) - 1;
+        int y = pathlength(root, n2) - 1;
+        int lcaData = findLCA(root, n1, n2).getData();
+        int lcaDistance = pathlength(root, lcaData) - 1;
+        return (x + y) - 2 * lcaDistance;
+    }
+
+    private Node findLCA(Node root, int n1, int n2) {
+        if (root != null) {
+            if (root.getData() == n1 || root.getData() == n2) {
+                return root;
+            }
+            Node left = findLCA(root.getLeft(), n1, n2);
+            Node right = findLCA(root.getRight(), n1, n2);
+
+            if (left != null && right != null) {
+                return root;
+            }
+            if (left != null) {
+                return left;
+            }
+            if (right != null) {
+                return right;
+            }
+        }
+        return null;
+    }
+
+    private int pathlength(Node root, int n1) {
+        if (root != null) {
+            int x = 0;
+            if ((root.getData() == n1)
+                    || (x = pathlength(root.getLeft(), n1)) > 0
+                    || (x = pathlength(root.getRight(), n1)) > 0) {
+                return x + 1;
+            }
+            return 0;
+        }
+        return 0;
+    }
+
+
     private Node findWithParent(Node node, Node parent) {
         Node current = this.root;
         parent = null;

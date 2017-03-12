@@ -25,5 +25,13 @@ public class Main {
         boolean result = tree.contains(new Node(42));
         System.out.println("Node is contained : " + result);
 
+        System.out.println();
+        int distance = tree.findDistanceBetweenNode(3, 4);
+        System.out.println("distance is : " + distance);
+
+        System.out.println();
+        int distance2 = tree.findDistanceBetweenNode(3, 8);
+        System.out.println("distance is : " + distance);
+
     }
 }
