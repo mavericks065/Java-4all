@@ -31,7 +31,7 @@ public class Main {
 
         System.out.println();
         int distance2 = tree.findDistanceBetweenNode(3, 8);
-        System.out.println("distance is : " + distance);
+        System.out.println("distance is : " + distance2);
 
     }
 }

@@ -1,6 +1,5 @@
 package myKatas.ng.primenumber;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +14,7 @@ public class PrimeFactors {
 
 
     /**
-     *
+     *`
      *
      *
      *
