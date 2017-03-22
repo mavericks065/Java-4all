@@ -1,4 +1,4 @@
-package fr.ng.algoTests.bts.bstOrderingAndOperations;
+package fr.ng.algoTests.bst.bstOrderingAndOperations;
 
 public class Main {
     public static void main(String[] args) {

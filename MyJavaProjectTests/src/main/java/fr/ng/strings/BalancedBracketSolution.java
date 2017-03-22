@@ -1,4 +1,4 @@
-package fr.ng.algoTests;
+package fr.ng.strings;
 
 import java.util.LinkedList;
 

@@ -1,4 +1,4 @@
-package fr.ng.algoTests;
+package fr.ng.integer;
 
 import java.util.ArrayList;
 import java.util.List;

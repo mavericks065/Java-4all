@@ -1,4 +1,4 @@
-package fr.ng.algoTests.bts.bstOrderingAndOperations;
+package fr.ng.algoTests.bst.bstOrderingAndOperations;
 
 public class Node {
     private int data;
