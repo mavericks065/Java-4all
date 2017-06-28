@@ -67,32 +67,12 @@ public class InMemoryQueueServiceTest {
 
         // WHEN
         queueService.push(null, topic);
-
-        // THEN
     }
 
     @Test(expected = NullPointerException.class)
     public void should_not_push_messages_to_the_queue_and_throw_null_pointer_exception_because_of_null_topic() throws Exception {
         // WHEN
         queueService.push(new Event(UUID.randomUUID(), "test"), null);
-
-        // THEN
-    }
-
-    @Test
-    public void pull_queue_should_return_last_event_inserted() {
-        // GIVEN
-        Queue topic = new Queue("pullQueue", 1000);
-        final Event event = new Event(UUID.randomUUID(), "message1");
-        queueService.push(event, topic);
-
-        // WHEN
-        Optional<Event> eventPulled = queueService.pull(topic);
-
-        // THEN
-        assertTrue(eventPulled.isPresent());
-        assertEquals(event.getUuid(), eventPulled.get().getUuid());
-        assertEquals(event.getValue(), eventPulled.get().getValue());
     }
 
     @Test
@@ -111,8 +91,6 @@ public class InMemoryQueueServiceTest {
     public void pull_queue_when_null_should_throw_exception(){
         // WHEN
         queueService.pull(null);
-
-        // THEN
     }
 
     @Test
@@ -151,7 +129,6 @@ public class InMemoryQueueServiceTest {
         queueService.push(event0, topic);
         boolean result = queueService.delete(event0, new Queue("deleteQueue1", 1000));
 
-
         // THEN
         assertFalse(result);
     }
@@ -178,15 +155,18 @@ public class InMemoryQueueServiceTest {
         final Queue topic = new Queue("deleteQueue", 1000);
         final Event event0 = new Event(UUID.randomUUID(), "message1");
         final Event event1 = new Event(UUID.randomUUID(), "message2");
+        event1.setStatus(EventStatus.INVISIBLE);
+        final Event event2 = new Event(UUID.randomUUID(), "message3");
 
         // WHEN
         queueService.push(event0, topic);
         queueService.push(event1, topic);
+        queueService.push(event2, topic);
         queueService.delete(event1, topic);
 
 
         // THEN
-        assertEquals(1, queueService.getQueue(topic).size());
+        assertEquals(2, queueService.getQueue(topic).size());
         assertEquals(event0.getUuid(), queueService.pull(topic).get().getUuid());
     }
 

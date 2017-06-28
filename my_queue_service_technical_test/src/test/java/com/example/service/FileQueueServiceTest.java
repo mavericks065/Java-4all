@@ -12,8 +12,8 @@ import java.util.UUID;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
-import static com.example.util.TestUtils.cleanUp;
 import static com.example.model.EventStatus.INVISIBLE;
+import static com.example.util.TestUtils.cleanUp;
 import static org.junit.Assert.*;
 
 public class FileQueueServiceTest {
@@ -54,8 +54,6 @@ public class FileQueueServiceTest {
 
     @Test
     public void pull_queue_when_empty_should_return_empty(){
-        //given
-
         //when
         Optional<Event> eventPulled = queueService.pull(queue);
 
@@ -67,9 +65,9 @@ public class FileQueueServiceTest {
     public void pull_2_events_in_queue_should_return_events_inserted_in_FIFO_queue() throws InterruptedException {
         // GIVEN
         final Event event = new Event(UUID.randomUUID(), "message1");
-        final Event event2 = new Event(UUID.randomUUID(), "message2");
         queueService.push(event, queue);
         Thread.sleep(1000);
+        final Event event2 = new Event(UUID.randomUUID(), "message2");
         queueService.push(event2, queue);
 
         // WHEN
@@ -95,7 +93,6 @@ public class FileQueueServiceTest {
         //when
         Optional<Event> eventPulled = queueService.pull(queue);
         boolean result = queueService.delete(eventPulled.get(), queue);
-
 
         // THEN
         assertTrue(result);

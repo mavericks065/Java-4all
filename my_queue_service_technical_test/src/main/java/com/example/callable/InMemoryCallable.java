@@ -30,6 +30,7 @@ public class InMemoryCallable<E extends Event> implements Callable {
             // remove invisible event
             existingQueue.remove(tempEvent);
 
+            // make event visible and on top of the queue
             makeEventVisible(existingQueue);
             return queues;
         }
