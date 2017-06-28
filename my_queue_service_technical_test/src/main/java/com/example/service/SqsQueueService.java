@@ -8,7 +8,6 @@ import com.example.model.Queue;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -19,8 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class SqsQueueService<E extends Event> implements QueueService<E> {
 
-    private static final Logger LOGGER = Logger.getLogger(SqsQueueService.class.getName());
-
     private final AmazonSQSClient sqsClient;
     private final ReceiveMessageRequest receiveMessageRequest;
 
@@ -30,14 +27,12 @@ public class SqsQueueService<E extends Event> implements QueueService<E> {
      * @param sqsClient
      */
     public SqsQueueService(final AmazonSQSClient sqsClient, final Queue queue) {
-
         this.sqsClient = checkNotNull(sqsClient);
-        Queue queue1 = checkNotNull(queue);
 
         this.receiveMessageRequest = new ReceiveMessageRequest(queue.getName());
 
         // set visibility timeout of the queue on AWS
-        ChangeMessageVisibilityRequest changeMessageVisibilityRequest = new ChangeMessageVisibilityRequest();
+        final ChangeMessageVisibilityRequest changeMessageVisibilityRequest = new ChangeMessageVisibilityRequest();
         changeMessageVisibilityRequest.setVisibilityTimeout(Long.valueOf(queue.getVisibilityTimeout()).intValue());
 
         this.sqsClient.changeMessageVisibility(changeMessageVisibilityRequest);

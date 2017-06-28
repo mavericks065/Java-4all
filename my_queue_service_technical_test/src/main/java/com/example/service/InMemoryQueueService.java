@@ -8,6 +8,7 @@ import com.google.common.annotations.VisibleForTesting;
 
 import java.util.Optional;
 import java.util.concurrent.*;
+import java.util.function.BiConsumer;
 import java.util.logging.Logger;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -34,13 +35,7 @@ public class InMemoryQueueService<E extends Event> implements QueueService<E> {
         checkNotNull(event);
         checkNotNull(topic);
 
-        // get topic
-        ConcurrentLinkedQueue<E> queue = queues.get(topic);
-        // create it if does not exist
-        if (queue == null) {
-            queue = new ConcurrentLinkedQueue<>();
-            queues.put(topic, queue);
-        }
+        final ConcurrentLinkedQueue<E> queue = getOrCreateQueue(topic);
 
         queue.add(event);
     }
@@ -49,49 +44,58 @@ public class InMemoryQueueService<E extends Event> implements QueueService<E> {
     public Optional<E> pull(Queue topic) {
         checkNotNull(topic);
 
-        Optional<E> result = Optional.empty();
         final ConcurrentLinkedQueue<E> existingQueue = queues.get(topic);
 
         if (existingQueue == null) {
             LOGGER.severe(String.format("Queue %s does not exist", existingQueue));
-            return result;
+            return Optional.empty();
         }
 
-        result = getFirstNewEvent(topic, result, existingQueue);
+        final Optional<E> result = getFirstNewEvent(topic, existingQueue);
 
-        if (result.isPresent()) {
-            // after the visibility timeout, if an INVISIBLE message has not been removed it is set back to NEW
-            E tempEvent = result.get();
-
-            final Callable callable = new InMemoryCallable(queues, topic, tempEvent);
-            executorService.schedule(callable, topic.getVisibilityTimeout(), TimeUnit.MILLISECONDS);
-        }
+        result.ifPresent(e -> myConsumer.accept(topic, e));
 
         return result;
     }
 
     @Override
-    public boolean delete(E event, Queue topic) {
+    public boolean delete(final E event, final Queue topic) {
         checkNotNull(event);
         checkNotNull(topic);
 
-        final ConcurrentLinkedQueue<E> queue = queues.get(topic);
-        if (queue == null) {
-            LOGGER.severe(String.format("Queue %s does not exist", queue));
+        final Optional<ConcurrentLinkedQueue<E>> queue = Optional.ofNullable(queues.get(topic));
+
+        if (!queue.isPresent() || !queue.get().contains(event)) {
+            LOGGER.severe(String.format("Queue %s either does not exist or does not contain the event %s", queue, event.getUuid()));
             return false;
         }
 
-        if (!queue.contains(event)) {
-            LOGGER.severe(String.format("Queue %s does not contain the event %s", queue, event.getUuid()));
-            return false;
-        }
-
-        queue.remove(event);
+        queue.get().remove(event);
 
         return true;
     }
 
-    private Optional<E> getFirstNewEvent(final Queue queue, Optional<E> result,
+    private BiConsumer<Queue, E> myConsumer = new BiConsumer<Queue, E>() {
+        @Override
+        public void accept(Queue topic, E e) {
+            executorService.schedule(new InMemoryCallable(queues, topic, e),
+                    topic.getVisibilityTimeout(),
+                    TimeUnit.MILLISECONDS);
+        }
+    };
+
+    private ConcurrentLinkedQueue<E> getOrCreateQueue(Queue topic) {
+        // get topic
+        ConcurrentLinkedQueue<E> queue = queues.get(topic);
+        // create it if does not exist
+        if (queue == null) {
+            queue = new ConcurrentLinkedQueue<>();
+            queues.put(topic, queue);
+        }
+        return queue;
+    }
+
+    private Optional<E> getFirstNewEvent(final Queue queue,
                                          final ConcurrentLinkedQueue<E> existingQueue) {
         for (E event : existingQueue) {
             if (EventStatus.NEW.equals(event.getStatus())) {
@@ -100,11 +104,10 @@ public class InMemoryQueueService<E extends Event> implements QueueService<E> {
                 // re-inject in the list of queues the queue with a modified event
                 queues.put(queue, existingQueue);
 
-                result = Optional.of(event);
-                break;
+                return Optional.of(event);
             }
         }
-        return result;
+        return Optional.empty();
     }
 
     @VisibleForTesting

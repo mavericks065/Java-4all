@@ -4,8 +4,10 @@ import com.example.model.EventStatus;
 import com.example.model.Queue;
 
 import java.io.File;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+import java.util.function.Function;
 
 public class FileCallable implements Callable {
 
@@ -24,18 +26,30 @@ public class FileCallable implements Callable {
 
     @Override
     public File call() throws Exception {
-
-        if (eventFile.exists()) {
-            final UUID id = UUID.fromString(eventFile.getName()
-                    .replace(EventStatus.INVISIBLE.toString(), "").replace(EVENT_EXTENSION, ""));
-
-            File visibleFile = new File(String.format("%s/%s/%s-%s%s", basePath, topic.getName(),
-                    id.toString(), EventStatus.NEW, EVENT_EXTENSION));
-
-            eventFile.renameTo(visibleFile);
-
-            return visibleFile;
-        }
-        return null;
+        return fnMakeFileVisible.compose(fnGetFileUuid).compose(fnIsFileExisting).apply(eventFile).orElse(null);
     }
+
+    private Function<File, Optional<File>> fnIsFileExisting = file -> {
+        if (file.exists())
+            return Optional.of(file);
+        return Optional.empty();
+    };
+
+    private Function<Optional<File>, Optional<UUID>> fnGetFileUuid = file -> {
+        if (file.isPresent()) {
+            final UUID uuid = UUID.fromString(file.get().getName().replace(EventStatus.INVISIBLE.toString(), "").replace(EVENT_EXTENSION, ""));
+            return Optional.of(uuid);
+        } else
+            return Optional.empty();
+    };
+
+    private Function<Optional<UUID>, Optional<File>> fnMakeFileVisible = new Function<Optional<UUID>, Optional<File>>() {
+        @Override
+        public Optional<File> apply(Optional<UUID> uuid) {
+            return uuid.isPresent() ?
+                    Optional.of(new File(String.format("%s/%s/%s-%s%s", basePath, topic.getName(),
+                        uuid.get().toString(), EventStatus.NEW, EVENT_EXTENSION)))
+                    : Optional.empty();
+        }
+    };
 }

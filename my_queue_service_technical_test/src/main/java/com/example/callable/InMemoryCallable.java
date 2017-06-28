@@ -14,7 +14,9 @@ public class InMemoryCallable<E extends Event> implements Callable {
     private final Queue queue;
     private final E tempEvent;
 
-    public InMemoryCallable(ConcurrentMap<Queue, ConcurrentLinkedQueue<E>> queues, Queue queue, E event) {
+    public InMemoryCallable(final ConcurrentMap<Queue, ConcurrentLinkedQueue<E>> queues,
+                            final Queue queue,
+                            final E event) {
         this.queues = queues;
         this.queue = queue;
         this.tempEvent = event;
@@ -25,17 +27,23 @@ public class InMemoryCallable<E extends Event> implements Callable {
         final ConcurrentLinkedQueue<E> existingQueue = queues.get(queue);
 
         if (existingQueue.contains(tempEvent)) {
-
+            // remove invisible event
             existingQueue.remove(tempEvent);
-            tempEvent.setStatus(EventStatus.NEW);
 
-            final ConcurrentLinkedQueue<E> reOrderedQueue = new ConcurrentLinkedQueue<>();
-            reOrderedQueue.add(tempEvent);
-            reOrderedQueue.addAll(existingQueue);
-
-            queues.put(queue, reOrderedQueue);
+            makeEventVisible(existingQueue);
             return queues;
         }
         return null;
+    }
+
+    private void makeEventVisible(ConcurrentLinkedQueue<E> existingQueue) {
+        tempEvent.setStatus(EventStatus.NEW);
+
+        final ConcurrentLinkedQueue<E> reOrderedQueue = new ConcurrentLinkedQueue<>();
+        reOrderedQueue.add(tempEvent);
+        reOrderedQueue.addAll(existingQueue);
+
+        // replace old queue with new ordered one
+        queues.put(queue, reOrderedQueue);
     }
 }

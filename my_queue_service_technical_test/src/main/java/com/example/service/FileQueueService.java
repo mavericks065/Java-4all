@@ -17,9 +17,10 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.logging.Logger;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -50,26 +51,20 @@ public class FileQueueService<E extends Event> implements QueueService<E> {
         checkNotNull(event.getUuid());
         checkNotNull(event.getValue());
 
-        final File topicPath = getOrCreateTopicPath(queue);
-
-        final File lock = getOrCreateLockFile(topicPath);
+        final File lock = fnGetOrCreateTopicPath.andThen(fnGetOrCreateLockFile).apply(queue);
         waitForLock(lock);
 
         try {
             final File messagePath = createEventFile(event, queue);
+
             if (messagePath == null) return;
 
-            final FileWriter writer = new FileWriter(messagePath);
-            writer.write(event.getValue());
-            writer.flush();
-            writer.close();
-
+            writeEventFile(event, messagePath);
         } catch (IOException e) {
             LOGGER.severe("Error at creating new file");
         } finally {
             unlock(lock);
         }
-
     }
 
     @Override
@@ -77,42 +72,43 @@ public class FileQueueService<E extends Event> implements QueueService<E> {
         checkNotNull(topic);
 
         final File topicPath = getTopic(topic);
+
         if (topicPath == null) {
             LOGGER.severe(String.format("Queue %s does not exist", topic));
             return Optional.empty();
         }
 
-        final File lockFile = getOrCreateLockFile(topicPath);
+        final File lockFile = fnGetOrCreateLockFile.apply(topicPath);
         waitForLock(lockFile);
 
         final Optional<File> firstFile = getFirstLastModifiedFile(topicPath);
 
+        if (!firstFile.isPresent()) {
+            return Optional.empty();
+        }
+
+        Event event = null;
         try {
-            if (firstFile.isPresent()) {
-                final UUID id = UUID.fromString(firstFile.get().getName()
-                        .replace(EventStatus.NEW.toString(), "").replace(EVENT_EXTENSION, ""));
+            final UUID id = getUuid(firstFile);
 
-                final File invisibleFile = new File(String.format("%s/%s/%s-%s%s", basePath, topic.getName(),
-                        id.toString(), EventStatus.INVISIBLE, EVENT_EXTENSION));
+            final File invisibleEventFile = createInvisibleEventFile(topic, id);
+            firstFile.get().renameTo(invisibleEventFile);
 
-                firstFile.get().renameTo(invisibleFile);
-                final String content = new String(Files.readAllBytes(Paths.get(String.valueOf(invisibleFile))), StandardCharsets.UTF_8);
-                final Event event = new Event(id, content);
-                event.setStatus(EventStatus.INVISIBLE);
+            byte[] contentByte = Files.readAllBytes(Paths.get(String.valueOf(invisibleEventFile)));
+            final String content = new String(contentByte, StandardCharsets.UTF_8);
 
-                // callable that puts back the event in a visible state if not deleted
-                final Callable callable = new FileCallable(basePath, topic, invisibleFile);
-                executorService.schedule(callable, topic.getVisibilityTimeout(), TimeUnit.MILLISECONDS);
+            event = new Event(id, content);
+            event.setStatus(EventStatus.INVISIBLE);
 
-                return Optional.of((E) event);
-            }
+            // callable that puts back the event in a visible state if not deleted
+            myConsumer.accept(topic, invisibleEventFile);
+
         } catch (IOException e) {
             LOGGER.severe("Error at deleting file during at pull operation");
         } finally {
             unlock(lockFile);
+            return Optional.ofNullable((E) event);
         }
-
-        return Optional.empty();
     }
 
     @Override
@@ -121,20 +117,49 @@ public class FileQueueService<E extends Event> implements QueueService<E> {
         checkNotNull(queue);
 
         final File topicPath = getTopic(queue);
+
         if (topicPath == null) {
             LOGGER.severe(String.format("Queue %s does not exist", queue));
             return false;
         }
 
-        final File messagePath = new File(String.format("%s/%s/%s-%s%s", basePath, queue.getName(),
+        final File msgFile = new File(String.format("%s/%s/%s-%s%s", basePath, queue.getName(),
                 event.getUuid().toString(), event.getStatus(), EVENT_EXTENSION));
-        return messagePath.delete();
 
+        return msgFile.delete();
+    }
+
+    private File createInvisibleEventFile(final Queue topic, final UUID id) {
+        return new File(String.format("%s/%s/%s-%s%s", basePath, topic.getName(),
+                id.toString(), EventStatus.INVISIBLE, EVENT_EXTENSION));
+    }
+
+    private UUID getUuid(final Optional<File> firstFile) {
+        return UUID.fromString(firstFile.get().getName()
+                .replace(EventStatus.NEW.toString(), "").replace(EVENT_EXTENSION, ""));
+    }
+
+
+    final BiConsumer<Queue, File> myConsumer = new BiConsumer<Queue, File>() {
+        @Override
+        public void accept(Queue topic, File file) {
+            executorService.schedule(new FileCallable(basePath, topic, file),
+                    topic.getVisibilityTimeout(),
+                    TimeUnit.MILLISECONDS);
+        }
+    };
+
+    private void writeEventFile(E event, File messagePath) throws IOException {
+        final FileWriter writer = new FileWriter(messagePath);
+        writer.write(event.getValue());
+        writer.flush();
+        writer.close();
     }
 
     private File createEventFile(E event, Queue queue) throws IOException {
         final File messagePath = new File(String.format("%s/%s/%s-%s%s", basePath, queue.getName(),
                 event.getUuid().toString(), EventStatus.NEW, EVENT_EXTENSION));
+
         if (messagePath.isFile()) {
             LOGGER.severe(String.format("This event with id %s has already been stored", event.getUuid().toString()));
             return null;
@@ -144,17 +169,27 @@ public class FileQueueService<E extends Event> implements QueueService<E> {
         return messagePath;
     }
 
-    private File getOrCreateTopicPath(final Queue queue) {
-        File topicFile = getTopic(queue);
+    private Function<Queue, File> fnGetOrCreateTopicPath = new Function<Queue, File>() {
+        @Override
+        public File apply(final Queue queue) {
+            File topicFile = getTopic(queue);
 
-        //create queue
-        if (topicFile == null) {
-            topicFile = new File(String.format("%s/%s", basePath, queue.getName()));
-            topicFile.mkdir();
+            //create queue
+            if (topicFile == null) {
+                topicFile = new File(String.format("%s/%s", basePath, queue.getName()));
+                topicFile.mkdir();
+            }
+
+            return topicFile;
         }
+    };
 
-        return topicFile;
-    }
+    private Function<File, File> fnGetOrCreateLockFile = new Function<File, File>() {
+        @Override
+        public File apply(File file) {
+            return new File(String.format("%s/%s/%s", basePath, file.getName(), LOCK));
+        }
+    };
 
     private File getTopic(final Queue queue) {
         final File f = new File(String.format("%s/%s", basePath, queue.getName()));
@@ -175,10 +210,6 @@ public class FileQueueService<E extends Event> implements QueueService<E> {
         } catch (InterruptedException e) {
             LOGGER.severe(String.format("Error while waiting lock %s. You might have lost data...", lock));
         }
-    }
-
-    private File getOrCreateLockFile(File topic) {
-        return new File(String.format("%s/%s/%s", basePath, topic.getName(), LOCK));
     }
 
     private void unlock(File lock) {
@@ -203,6 +234,4 @@ public class FileQueueService<E extends Event> implements QueueService<E> {
 
         return Optional.empty();
     }
-
-
 }

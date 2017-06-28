@@ -34,7 +34,7 @@ public class InMemoryCallableTest {
         final Event event3 = new Event(UUID.randomUUID(), "message3");
         final Event event4 = new Event(UUID.randomUUID(), "message4");
 
-        ConcurrentLinkedQueue<Event> linkQueue = new ConcurrentLinkedQueue<>();
+        final ConcurrentLinkedQueue<Event> linkQueue = new ConcurrentLinkedQueue<>();
         linkQueue.add(event);
         linkQueue.add(event2);
         linkQueue.add(event3);
