@@ -34,8 +34,31 @@ public class BowlingGameImpl implements BowlingGame {
                 || (frames.size() > 0 && frames.getLast().getScore() < 10
                         && frames.getLast().getRolls().size() == 2);
 
-        final Frame frame;
+        final Frame frame = getFrame(numberOfPins, hasToCreateNewFrame);
 
+        frame.roll(numberOfPins);
+
+        frames.add(frame);
+    }
+
+    @Override
+    public int score() {
+
+        // if the user scores only strikes he gets the maximum score
+        if (frames.size() == numberOfFrames
+                && frames.stream().map(Frame::getFirstRoll).map(Integer::intValue).allMatch(i -> i == Frame.NUMBER_OF_PINS)) {
+
+            return maximumScore;
+
+        } else {
+            return frames.stream()
+                            .map(Frame::getScore)
+                            .reduce(0, (total, number) -> total + number);
+        }
+    }
+
+    private Frame getFrame(final int numberOfPins, final boolean hasToCreateNewFrame) {
+        final Frame frame;
         if (hasToCreateNewFrame && !isLastFrame()) {
 
             frame = new SimpleFrame();
@@ -58,26 +81,7 @@ public class BowlingGameImpl implements BowlingGame {
             convertPreviousFrameToStrikeFrame(numberOfPins, frame);
 
         }
-
-        frame.roll(numberOfPins);
-
-        frames.add(frame);
-    }
-
-    @Override
-    public int score() {
-
-        // if the user scores only strikes he gets the maximum score
-        if (frames.size() == numberOfFrames
-                && frames.stream().map(Frame::getFirstRoll).map(Integer::intValue).allMatch(i -> i == Frame.NUMBER_OF_PINS)) {
-
-            return maximumScore;
-
-        } else {
-            return frames.stream()
-                            .map(Frame::getScore)
-                            .reduce(0, (total, number) -> total + number);
-        }
+        return frame;
     }
 
     /**

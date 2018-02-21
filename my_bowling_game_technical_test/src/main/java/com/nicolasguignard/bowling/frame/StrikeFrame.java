@@ -16,18 +16,18 @@ public class StrikeFrame extends SimpleFrame {
 
     @Override
     public int getScore() {
-        int score = getRolls().stream()
+        return getRolls().stream()
                               .filter(integer -> integer != null)
                               .reduce(0, (total, number) -> total + number);
-        return score;
     }
 
     @Override
     public List<Integer> getRolls() {
         final List<Integer> rolls = new ArrayList<>();
+        final Integer firstRoll = getFirstRoll();
 
-        if (getFirstRoll() != null) {
-            rolls.add(getFirstRoll());
+        if (firstRoll != null) {
+            rolls.add(firstRoll);
         }
         rolls.addAll(nextRolls);
         return rolls;

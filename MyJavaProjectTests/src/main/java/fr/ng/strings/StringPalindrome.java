@@ -2,7 +2,7 @@ package fr.ng.strings;
 
 import java.util.Scanner;
 
-public class StringReverse {
+public class StringPalindrome {
 
     public static void main(String[] args) {
         /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */

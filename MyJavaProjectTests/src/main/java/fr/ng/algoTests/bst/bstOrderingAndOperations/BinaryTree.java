@@ -91,10 +91,25 @@ public class BinaryTree {
     }
 
     public boolean contains(final Node node) {
-        boolean result = findWithParent(node, root) != null ?
+        boolean result = findWithParent(node) != null ?
                 true :
                 false;
         return result;
+    }
+
+    private Node findWithParent(Node node) {
+        Node current = this.root;
+
+        while (current != null) {
+            if (current.getData() > node.getData()) {
+                current = current.getLeft();
+            } else if (current.getData() < node.getData()) {
+                current = current.getRight();
+            } else {
+                break;
+            }
+        }
+        return current;
     }
 
     public int findDistanceBetweenNode(int n1, int n2) {
@@ -137,25 +152,6 @@ public class BinaryTree {
             return 0;
         }
         return 0;
-    }
-
-
-    private Node findWithParent(Node node, Node parent) {
-        Node current = this.root;
-        parent = null;
-
-        while (current != null) {
-            if (current.getData() > node.getData()) {
-                parent = current;
-                current = current.getLeft();
-            } else if (current.getData() < node.getData()) {
-                parent = current;
-                current = current.getRight();
-            } else {
-                break;
-            }
-        }
-        return current;
     }
 
     public Node getRoot() {

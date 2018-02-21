@@ -18,20 +18,20 @@ package fr.ng.algoTests.bst.isperfect;
  */
 public class TreeNode {
 
-    TreeNode left;
-    TreeNode right;
-    int value;
+    public TreeNode left;
+    public TreeNode right;
+    public int value;
 
     public TreeNode() {
     }
 
-    TreeNode(int value, TreeNode left, TreeNode right) {
+    public TreeNode(int value, TreeNode left, TreeNode right) {
         this.value = value;
         this.left = left;
         this.right = right;
     }
 
-    TreeNode(int value) {
+    public TreeNode(int value) {
         this(value, null, null);
     }
 
